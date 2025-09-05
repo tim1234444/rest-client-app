@@ -5,7 +5,7 @@ export default async function History() {
   const { data: history_and_analytics, error } = await supabase
     .from('history_and_analytics')
     .select(
-      'request_duration, response_status_code, request_timestamp, request_method, request_size, error_details, endpoint_url, user_id',
+      'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url'
     );
 
   if (error) {
