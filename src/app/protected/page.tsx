@@ -7,8 +7,6 @@ export default async function ProtectedPage() {
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect('/auth/login');
-  } else {
-    redirect('/history');
   }
 
   return (
