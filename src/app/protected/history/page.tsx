@@ -12,6 +12,10 @@ export default async function History() {
     console.error('Supabase error:', error);
     return <div>Error: {error.message}</div>;
   }
+
+  if (history_and_analytics.length === 0)
+    return <p>You havent executed any requests, Its empty here.</p>;
+
   return (
     <div>
       <table border={1}>
