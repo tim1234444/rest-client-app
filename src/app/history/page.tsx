@@ -12,10 +12,8 @@ export default async function History() {
     console.error('Supabase error:', error);
     return <div>Error: {error.message}</div>;
   }
-  console.log(history_and_analytics);
   return (
     <div>
-      {/* {JSON.stringify(history_and_analytics, null, "  ")} */}
       <table border={1}>
         <caption>History and analytics</caption>
         <thead>
