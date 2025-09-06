@@ -21,9 +21,23 @@ export default async function History() {
   const { data: history_and_analytics, error } = await supabase
     .from('history_and_analytics')
     .select(
-      'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url',
+      'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url, id, request_headers, request_body',
     )
     .eq('user_id', userInfo?.id);
+
+  // if (data) {
+  //   const { data: history_and_analytics } = await supabase
+  //   .from('history_and_analytics')
+  //   .select(
+  //     ''
+  //   )
+  //   .eq('user_id', userInfo?.id);
+  //   history_and_analytics.forEach(element => {
+  //     const obj = JSON.parse(element.request_body, null);
+  //     console.log(element, typeof obj, obj);
+  //   });
+
+  // }
 
   if (error) {
     console.error('Supabase error:', error);
@@ -78,9 +92,9 @@ export default async function History() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {history_and_analytics.map((row, index) => (
-                <Row key={index} index={index} value={row} />
-              ))}
+              {history_and_analytics.map((row, index) => {
+                return <Row key={index} index={index} value={row} id={row.id} />
+              })}
             </tbody>
           </table>
         </div>

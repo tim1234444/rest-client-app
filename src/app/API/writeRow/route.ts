@@ -8,16 +8,15 @@ export async function POST(request: Request) {
 
   const res = await request.json();
 
-  
-
-
   const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
   const userInfo = user.user;
   let responseSize: number = 0;
   let durationMs: number = 0;
   let status: number = 0;
+  const body = res.body ?? '';
   try {
     const headers = res.headers ?? {};
+    console.log(`${headers}`);
     const startTime = process.hrtime.bigint();
     try {
       new URL(res.url);
@@ -58,6 +57,8 @@ export async function POST(request: Request) {
           error_details: errorDetails,
           endpoint_url: res.url,
           user_id: userInfo?.id,
+          request_headers: headers,
+          request_body: body
         },
       ])
       .select();

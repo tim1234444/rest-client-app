@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from 'next/navigation'
 interface IProps {
   request_duration: number;
   response_status_code: number;
@@ -9,14 +9,23 @@ interface IProps {
   response_size: number;
   error_details: string;
   endpoint_url: string;
+  id: number;
+  request_headers: string;
+  request_body: string;
 }
 
-export default function Row({ index, value }: { index: number; value: IProps }) {
+export default function Row({ index, value, id }: { index: number; value: IProps; id: number }) {
+  const router = useRouter();
   return (
     <tr
       key={index}
-      onClick={(e) => {
-        console.log(e.currentTarget, e.target);
+      data-id={id}
+      onClick={() => {
+        const requstMethod = value.request_method;
+        const  requestUrl = window.btoa(value.endpoint_url);
+        const  requestHeader = value.request_headers ? `?${value.request_headers}` : '';
+        const  requestBody = value.request_body ? `/${window.btoa(value.request_body)}` : '';
+        router.push('/protected/client/' + requstMethod +'/' + requestUrl + requestBody + requestHeader);
       }}
       className="hover:bg-muted/30 cursor-pointer"
     >
