@@ -7,8 +7,11 @@ export async function POST(request: Request) {
   const { data: user } = await supabase.auth.getUser();
 
   const res = await request.json();
-  const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
 
+  
+
+
+  const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
   const userInfo = user.user;
   let responseSize: number = 0;
   let durationMs: number = 0;
@@ -16,7 +19,11 @@ export async function POST(request: Request) {
   try {
     const headers = res.headers ?? {};
     const startTime = process.hrtime.bigint();
-
+    try {
+      new URL(res.url);
+    } catch {
+      throw new Error('Invalid URL format');
+    }
     const userFetch = await fetch(res.url, {
       method: res.method,
       headers,
@@ -54,7 +61,7 @@ export async function POST(request: Request) {
         },
       ])
       .select();
-    
+
     return new Response(JSON.stringify({ status: userFetch.status, data }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
