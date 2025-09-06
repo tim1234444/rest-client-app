@@ -10,11 +10,14 @@ import {
 
 export default async function History() {
   const supabase = await createClient();
+  const { data: user } = await supabase.auth.getUser();
+  const userInfo = user.user;
   const { data: history_and_analytics, error } = await supabase
     .from('history_and_analytics')
     .select(
       'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url',
-    );
+    )
+    .eq('user_id', userInfo?.id);
 
   if (error) {
     console.error('Supabase error:', error);

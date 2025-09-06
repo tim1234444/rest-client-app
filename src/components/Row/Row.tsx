@@ -37,7 +37,7 @@ export default function Row({ index, value }: { index: number; value: IProps }) 
               i === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'
             }`}
           >
-            {displayValue ?? '—'}
+            {displayValue}
           </td>
         );
       })}
