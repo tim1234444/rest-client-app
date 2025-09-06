@@ -1,7 +1,7 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { useState } from 'react';
+import {useState } from 'react';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
@@ -31,6 +31,7 @@ export default function RestClient() {
   const [res, serRes] = useState('');
   const [status, setStatus] = useState<number>();
   const [fetchError, setFetchError] = useState('');
+
   async function Validate(formData: DataType) {
     try {
       await schema.validate(formData, { abortEarly: false });
@@ -57,7 +58,7 @@ export default function RestClient() {
     body: string,
   ) {
     e.preventDefault();
-    setIsLoading(true);
+
     serRes('');
     setStatus(0);
     setFetchError('');
@@ -66,6 +67,7 @@ export default function RestClient() {
     const values = Object.fromEntries(formData.entries()) as unknown as DataType;
     const isValidate = await Validate(values);
     if (isValidate) {
+      setIsLoading(true);
       setErrors({});
       const data = await fetch('/api/writeRow', {
         headers: {

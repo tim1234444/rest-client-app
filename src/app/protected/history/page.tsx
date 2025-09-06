@@ -7,9 +7,15 @@ import {
   CardTitle,
   CardDescription,
 } from '@/src/components/ui/card';
+import { redirect } from 'next/navigation';
 
 export default async function History() {
   const supabase = await createClient();
+
+  const { data, error: err } = await supabase.auth.getUser();
+  if (err || !data?.user) {
+    redirect('/auth/login');
+  }
   const { data: user } = await supabase.auth.getUser();
   const userInfo = user.user;
   const { data: history_and_analytics, error } = await supabase
