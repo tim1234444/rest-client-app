@@ -7,7 +7,7 @@ import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 import { schema } from '@/src/schemas';
-import {ValidationError } from 'yup';
+import { ValidationError } from 'yup';
 
 type headersList = {
   headerValue: string;
@@ -19,6 +19,7 @@ type DataType = {
 };
 
 export default function RestClient() {
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [url, setUrl] = useState('');
   const [body, setBody] = useState('');
@@ -56,6 +57,7 @@ export default function RestClient() {
     body: string,
   ) {
     e.preventDefault();
+    setIsLoading(true);
     serRes('');
     setStatus(0);
     setFetchError('');
@@ -79,7 +81,7 @@ export default function RestClient() {
       });
 
       const res = await data.json();
-
+      setIsLoading(false);
       if (data.status === 200) {
         serRes(res.data);
         setStatus(res.status);
@@ -109,6 +111,9 @@ export default function RestClient() {
               >
                 <option value="POST">POST</option>
                 <option value="GET">GET</option>
+                <option value="PATCH">PATCH</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
               </select>
               <div className="text-sm text-red-500">{errors.method || '\u00A0'}</div>
             </div>
@@ -160,7 +165,7 @@ export default function RestClient() {
                     key={item.headerName + item.headerValue}
                     className="flex justify-between items-center border p-2 rounded"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 justify-between w-[90%] mx-auto">
                       <p className="font-medium">{item.headerName}</p>
                       <p>{item.headerValue}</p>
                     </div>
@@ -202,8 +207,15 @@ export default function RestClient() {
                 options={{ readOnly: false, minimap: { enabled: false } }}
               />
             </div>
-            <Button type="submit" className="mt-4 w-full">
-              Send Request
+            <Button
+              type="submit"
+              className="mt-4 w-full flex items-center justify-center gap-2"
+              disabled={isLoading}
+            >
+              {isLoading && (
+                <span className="animate-spin h-5 w-5 border-2 border-t-transparent border-white rounded-full"></span>
+              )}
+              {isLoading ? 'Sending…' : 'Send Request'}
             </Button>
           </form>
         </CardContent>
