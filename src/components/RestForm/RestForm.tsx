@@ -1,7 +1,7 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import {useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
@@ -25,34 +25,49 @@ type DataType = {
 };
 
 export default function RestClient() {
+  // Получение параметров для востановления полей из URL
   const params: { params: string[] } = useParams();
   const searchParams = useSearchParams();
+
+  // Получение значений из параметров и привязка их к переменным
   const [parseMethod, parseUrl, parseBody, parseHeaders] = useMemo(() => {
     const arr = params?.params ?? [];
-    const sp = Array.from(searchParams.entries()).map(([headerName, headerValue]) => ({
+
+    const method = arr[0] ?? 'GET';
+    const url = arr[1] ? atob(decodeURIComponent(arr[1])) : '';
+    const body = arr[2] ? atob(decodeURIComponent(arr[2])) : '';
+    const headers = Array.from(searchParams.entries()).map(([headerName, headerValue]) => ({
       headerName,
       headerValue,
     }));
-
-    const m = arr[0] ?? 'GET';
-    const u = arr[1] ? atob(decodeURIComponent(arr[1])) : '';
-    const b = arr[2] ? atob(decodeURIComponent(arr[2])) : '';
-    return [m, u, b, sp];
+    return [method, url, body, headers];
   }, [params.params, searchParams]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // Объяление состояний для отслеживания значений input
+  const [method, setMethod] = useState(parseMethod);
   const [url, setUrl] = useState(parseUrl);
   const [body, setBody] = useState(parseBody);
-  const [typeBody, setTypeBody] = useState('JSON');
   const [headersList, setHeadersList] = useState<headersList>(parseHeaders);
+
+  // Тип данных в текстовом редакторе
+  const [typeBody, setTypeBody] = useState('JSON');
+
+  // Создание Header
   const [headerName, setHeaderName] = useState('');
   const [headerValue, setHeaderValue] = useState('');
-  const [method, setMethod] = useState(parseMethod);
+
+  // Ошибки валидации
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Состояние для отслеживание фазы ожидания ответа запроса
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Отслеживание состояние запроса, ошибок и результат запроса
   const [res, serRes] = useState('');
   const [status, setStatus] = useState<number>();
   const [fetchError, setFetchError] = useState('');
 
+  // Функция валидации
   async function Validate(formData: DataType) {
     try {
       await schema.validate(formData, { abortEarly: false });
@@ -73,33 +88,40 @@ export default function RestClient() {
       return false;
     }
   }
+
+  // Отправка запроса
   const fetchFrom = async function (
     e: React.FormEvent<HTMLFormElement>,
     headers: headersList,
     body: string,
   ) {
     e.preventDefault();
-
+    // Сбрасывание ошибок валидации, результата запроса, статуса ответа, ошибки запроса
+    setErrors({});
     serRes('');
     setStatus(0);
     setFetchError('');
+
+    // Получение и преобразование всех необходимых полей для изменения URL
     const headersObj = Object.fromEntries(headers.map((h) => [h.headerName, h.headerValue]));
     const params = new URLSearchParams(headersObj).toString();
     const requestUrl = window.btoa(url);
     const requestBody = window.btoa(body);
     const requestMethod = method;
+    // Замена URL
     replaseURL({
       method: requestMethod,
       url: '/' + requestUrl,
       headers: '?' + params,
       body: '/' + requestBody,
     });
+
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries()) as unknown as DataType;
+    // Вызов функции Валидации
     const isValidate = await Validate(values);
     if (isValidate) {
       setIsLoading(true);
-      setErrors({});
       const data = await fetch('/api/writeRow', {
         headers: {
           'Content-Type': 'application/json',
@@ -124,6 +146,8 @@ export default function RestClient() {
       }
     }
   };
+
+  // Функция замены URL
   const replaseURL = function ({
     method = '',
     url = '',

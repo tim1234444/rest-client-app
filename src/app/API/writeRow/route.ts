@@ -2,37 +2,50 @@ import { createClient } from '@/src/lib/supabase/server';
 // import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  // Инициализация supabase и получение данных пользователя
   const supabase = await createClient();
-  const date = new Date(Date.now()).toLocaleString('en-EN');
   const { data: user } = await supabase.auth.getUser();
-
-  const res = await request.json();
-
-  const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
   const userInfo = user.user;
+  
+  
+  // Получение данных запроса, включающие URL, method, headers, body
+  const res = await request.json();
+  
+  // Инициализация всех необходимых перменных для сохранения
+  const date = new Date(Date.now()).toLocaleString('en-EN');
+  const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
   let responseSize: number = 0;
   let durationMs: number = 0;
   let status: number = 0;
   const body = res.body ?? '';
+  const headers = res.headers ?? '';
   try {
-    const headers = res.headers ?? '';
+    const params = new URLSearchParams(headers).toString();
 
+    // Начало отсчета времени запроса
     const startTime = process.hrtime.bigint();
+
+    // Блок проверки URL на валидность
     try {
       new URL(res.url);
     } catch {
+      // В случае некоректного URL выбрасывается ошибка
       throw new Error('Invalid URL format');
     }
+
+    // Отправка запроса
     const userFetch = await fetch(res.url, {
       method: res.method,
       headers,
       body: ['POST', 'PUT', 'PATCH'].includes(res.method) ? res.body : undefined,
     });
 
+    // Конец отсчета времени совершения запроса
     const endTime = process.hrtime.bigint();
     const durationNs = endTime - startTime;
     durationMs = Math.floor(Number(durationNs) / 1000000);
 
+    // Проверка типа ответа и использование правильного метода для парсинга ответа запроса
     let data;
     const contentType = userFetch.headers.get('content-type');
     if (contentType?.includes('application/json')) {
@@ -41,11 +54,12 @@ export async function POST(request: Request) {
       data = await userFetch.text();
     }
 
+    // Получение размера ответа и ошибок при наличии
     responseSize = new TextEncoder().encode(data).length;
     const errorDetails = userFetch.ok ? 'not error' : `HTTP ${userFetch.status}: ${data}`;
-    const params = new URLSearchParams(headers).toString();
-
     status = userFetch.status;
+
+    // Отправка в базу
     await supabase
       .from('history_and_analytics')
       .insert([
@@ -70,7 +84,9 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (err) {
+    // Отправка данных в бд в случае ошибки
     console.error(err);
+    const params = new URLSearchParams(headers).toString();
     await supabase
       .from('history_and_analytics')
       .insert([
@@ -84,6 +100,8 @@ export async function POST(request: Request) {
           error_details: (err as Error).message,
           endpoint_url: res.url,
           user_id: userInfo?.id,
+          request_headers: params,
+          request_body: body,
         },
       ])
       .select();
