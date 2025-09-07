@@ -19,14 +19,12 @@ export default async function History() {
   const { data: user } = await supabase.auth.getUser();
   const userInfo = user.user;
   const { data: history_and_analytics, error } = await supabase
-  .from('history_and_analytics')
-  .select(
-    'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url, id, request_headers, request_body',
-  )
-  .eq('user_id', userInfo?.id)
-  .order('request_timestamp', { ascending: false })
-
-
+    .from('history_and_analytics')
+    .select(
+      'request_duration, response_status_code, request_timestamp, request_method, request_size, response_size, error_details, endpoint_url, id, request_headers, request_body',
+    )
+    .eq('user_id', userInfo?.id)
+    .order('request_timestamp', { ascending: false });
 
   if (error) {
     console.error('Supabase error:', error);
@@ -82,7 +80,7 @@ export default async function History() {
             </thead>
             <tbody className="divide-y divide-border">
               {history_and_analytics.map((row, index) => {
-                return <Row key={index} index={index} value={row} id={row.id} />
+                return <Row key={index} index={index} value={row} id={row.id} />;
               })}
             </tbody>
           </table>
