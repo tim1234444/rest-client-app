@@ -15,8 +15,8 @@ export async function POST(request: Request) {
   let status: number = 0;
   const body = res.body ?? '';
   try {
-    const headers = res.headers ?? {};
-    console.log(`${headers}`);
+    const headers = res.headers ?? '';
+
     const startTime = process.hrtime.bigint();
     try {
       new URL(res.url);
@@ -43,6 +43,8 @@ export async function POST(request: Request) {
 
     responseSize = new TextEncoder().encode(data).length;
     const errorDetails = userFetch.ok ? 'not error' : `HTTP ${userFetch.status}: ${data}`;
+    const params = new URLSearchParams(headers).toString();
+
     status = userFetch.status;
     await supabase
       .from('history_and_analytics')
@@ -57,8 +59,8 @@ export async function POST(request: Request) {
           error_details: errorDetails,
           endpoint_url: res.url,
           user_id: userInfo?.id,
-          request_headers: headers,
-          request_body: body
+          request_headers: params,
+          request_body: body,
         },
       ])
       .select();

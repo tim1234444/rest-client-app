@@ -1,14 +1,20 @@
 'use client';
 
 import { Editor } from '@monaco-editor/react';
-import { useState } from 'react';
+import {useMemo, useState } from 'react';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 import { schema } from '@/src/schemas';
 import { ValidationError } from 'yup';
-
+import { useParams, useSearchParams } from 'next/navigation';
+type ReplaceURLParams = {
+  method?: string;
+  url?: string;
+  headers?: string;
+  body?: string;
+};
 type headersList = {
   headerValue: string;
   headerName: string;
@@ -19,15 +25,30 @@ type DataType = {
 };
 
 export default function RestClient() {
+  const params: { params: string[] } = useParams();
+  const searchParams = useSearchParams();
+  const [parseMethod, parseUrl, parseBody, parseHeaders] = useMemo(() => {
+    const arr = params?.params ?? [];
+    const sp = Array.from(searchParams.entries()).map(([headerName, headerValue]) => ({
+      headerName,
+      headerValue,
+    }));
+
+    const m = arr[0] ?? 'GET';
+    const u = arr[1] ? atob(decodeURIComponent(arr[1])) : '';
+    const b = arr[2] ? atob(decodeURIComponent(arr[2])) : '';
+    return [m, u, b, sp];
+  }, [params.params, searchParams]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [url, setUrl] = useState('');
-  const [body, setBody] = useState('');
+  const [url, setUrl] = useState(parseUrl);
+  const [body, setBody] = useState(parseBody);
   const [typeBody, setTypeBody] = useState('JSON');
-  const [headersList, setHeadersList] = useState<headersList>([]);
+  const [headersList, setHeadersList] = useState<headersList>(parseHeaders);
   const [headerName, setHeaderName] = useState('');
   const [headerValue, setHeaderValue] = useState('');
-  const [method, setMethod] = useState('GET');
+  const [method, setMethod] = useState(parseMethod);
   const [res, serRes] = useState('');
   const [status, setStatus] = useState<number>();
   const [fetchError, setFetchError] = useState('');
@@ -63,6 +84,16 @@ export default function RestClient() {
     setStatus(0);
     setFetchError('');
     const headersObj = Object.fromEntries(headers.map((h) => [h.headerName, h.headerValue]));
+    const params = new URLSearchParams(headersObj).toString();
+    const requestUrl = window.btoa(url);
+    const requestBody = window.btoa(body);
+    const requestMethod = method;
+    replaseURL({
+      method: requestMethod,
+      url: '/' + requestUrl,
+      headers: '?' + params,
+      body: '/' + requestBody,
+    });
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries()) as unknown as DataType;
     const isValidate = await Validate(values);
@@ -93,7 +124,14 @@ export default function RestClient() {
       }
     }
   };
-
+  const replaseURL = function ({
+    method = '',
+    url = '',
+    headers = '',
+    body = '',
+  }: ReplaceURLParams) {
+    window.history.replaceState(null, '', `/protected/client/${method}` + url + body + headers);
+  };
   return (
     <>
       <Card className="max-w-3xl mx-auto p-4">
@@ -108,7 +146,9 @@ export default function RestClient() {
                 id="method"
                 name="method"
                 value={method}
-                onChange={(e) => setMethod(e.target.value)}
+                onChange={(e) => {
+                  setMethod(e.target.value);
+                }}
                 className="border rounded-md px-3 py-1"
               >
                 <option value="POST">POST</option>
@@ -128,7 +168,9 @@ export default function RestClient() {
                 name="url"
                 placeholder="Enter URL"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                }}
               />
               <div className="text-sm text-red-500">{errors.url || '\u00A0'}</div>
             </div>
@@ -154,7 +196,11 @@ export default function RestClient() {
                   type="button"
                   onClick={() => {
                     if (headerName && headerValue) {
-                      setHeadersList((prev) => [...prev, { headerName, headerValue }]);
+                      setHeadersList((prev) => {
+                        const updated = [...prev, { headerName, headerValue }];
+
+                        return updated;
+                      });
                     }
                   }}
                 >
