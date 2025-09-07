@@ -122,7 +122,7 @@ export default function RestClient() {
     const isValidate = await Validate(values);
     if (isValidate) {
       setIsLoading(true);
-      const data = await fetch('/api/writeRow', {
+      const data = await fetch('/API/writeRow', {
         headers: {
           'Content-Type': 'application/json',
         },
