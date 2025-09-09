@@ -16,6 +16,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
               <Link href={'/'}>Home</Link>
               <Link href={'/protected/client'}>RestClient</Link>
               <Link href={'/protected/history'}>History and analytics</Link>
+              <Link href={'/protected/variables'}>Variables</Link>
             </div>
             <button>Lang</button>
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
