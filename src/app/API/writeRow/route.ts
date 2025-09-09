@@ -9,7 +9,6 @@ export async function POST(request: Request) {
 
   // Получение данных запроса, включающие URL, method, headers, body
   const res = await request.json();
-
   // Инициализация всех необходимых перменных для сохранения
   const date = new Date(Date.now()).toLocaleString('en-EN');
   const bodySize = res.body ? new TextEncoder().encode(res.body).length : 0;
