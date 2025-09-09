@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/ca
 import { schema } from '@/src/schemas';
 import { ValidationError } from 'yup';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 type ReplaceURLParams = {
   method?: string;
   url?: string;
@@ -28,6 +29,7 @@ export default function RestClient() {
   // Получение параметров для востановления полей из URL
   const params: { params: string[] } = useParams();
   const searchParams = useSearchParams();
+  const t = useTranslations('client');
 
   // Получение значений из параметров и привязка их к переменным
   const [parseMethod, parseUrl, parseBody, parseHeaders] = useMemo(() => {
@@ -160,12 +162,12 @@ export default function RestClient() {
     <>
       <Card className="max-w-3xl mx-auto p-4">
         <CardHeader>
-          <CardTitle className="text-2xl">REST Client</CardTitle>
+          <CardTitle className="text-2xl">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => fetchFrom(e, headersList, body)} className="flex flex-col gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="method">Method</Label>
+              <Label htmlFor="method">{t('method')}</Label>
               <select
                 id="method"
                 name="method"
@@ -200,7 +202,7 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label>Headers</Label>
+              <Label>{t('headers')}</Label>
               <div className="flex gap-2">
                 <Input
                   type="text"
@@ -228,7 +230,7 @@ export default function RestClient() {
                     }
                   }}
                 >
-                  Add
+                  {t('add')}
                 </Button>
               </div>
               <ul className="space-y-1 mt-2">
@@ -287,7 +289,7 @@ export default function RestClient() {
               {isLoading && (
                 <span className="animate-spin h-5 w-5 border-2 border-t-transparent border-white rounded-full"></span>
               )}
-              {isLoading ? 'Sending…' : 'Send Request'}
+              {isLoading ? 'Sending…' : `${t('send')}`}
             </Button>
           </form>
         </CardContent>

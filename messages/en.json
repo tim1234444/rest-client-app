@@ -48,5 +48,13 @@
   "footer": {
     "co": "Powered by",
     "supabase": "Supabase"
+  },
+
+  "client": {
+    "title": "REST Client",
+    "method":"Method",
+    "headers": "Headers",
+    "add": "Add header",
+    "send":"Send Request"
   }
 }
