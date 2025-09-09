@@ -1,0 +1,52 @@
+{
+  "root": {
+    "title": "Home",
+    "lang": "Change lang",
+    "en": "English",
+    "ru": "Russian",
+    "locale": "en",
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "hello": "Welcome",
+    "hey": "Hey",
+    "helloback": "Welcome Back"
+  },
+
+  "login": {
+    "login": "Login",
+    "description": "Enter your email below to login to your account",
+    "email": "Email",
+    "password": "Password",
+    "forgot": "Forgot your password",
+    "account": "Don't have an account",
+    "signup": "Sign up",
+    "logout": "Logout"
+  },
+
+  "signup": {
+    "login": "Login",
+    "signup": "Sign up",
+    "description": "Create a new account",
+    "email": "Email",
+    "password": "Password",
+    "repeat": "Repeat Password",
+    "haveacount": "Already have an account"
+  },
+
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+
+  "nav": {
+    "home": "Home",
+    "client": "Rest client",
+    "history": "History and analytics"
+  },
+
+  "footer": {
+    "co": "Powered by",
+    "supabase": "Supabase"
+  }
+}
