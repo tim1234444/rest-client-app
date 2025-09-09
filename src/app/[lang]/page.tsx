@@ -9,6 +9,7 @@ import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 
 export default async function Home() {
   const supabase = await createClient();
+  // const lang = await switchLang();
 
   const { data, error } = await supabase.auth.getUser();
   if (data.user || !error) {

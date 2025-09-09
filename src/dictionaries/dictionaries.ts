@@ -5,16 +5,19 @@ export interface ILang {
 }
 
 export async function switchLang(value = 'en', setLang: (d: ILang) => void) {
+  console.log('switch foo value', value);
+  if (value === 'ru') {
+        const dict = await getDictionary('ru');
+        await setLang(dict);
+        return;
+    };
+
     if (value === 'en') {
-        const dict = await getDictionary(value);
+        const dict = await getDictionary('en');
         await setLang(dict);
         return;
     };
-    if (value === 'ru') {
-        const dict = await getDictionary(value);
-        await setLang(dict);
-        return;
-    };
+
 }
 
 const dictionaries = {
@@ -23,4 +26,4 @@ const dictionaries = {
 }
 
 export const getDictionary = async (locale: 'en' | 'ru') =>
-  dictionaries[locale]()
+  await dictionaries[locale]()
