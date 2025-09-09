@@ -5,6 +5,7 @@ import { hasEnvVars } from '@/src/lib/utils';
 import Link from 'next/link';
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -21,7 +22,7 @@ export default async function Home() {
             <div className="flex gap-5 items-center font-semibold">
               <Link href={'/'}>Home</Link>
             </div>
-            <button>Button</button>
+            <LangSwitcher />
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
           </div>
         </nav>
