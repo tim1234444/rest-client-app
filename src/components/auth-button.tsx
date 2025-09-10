@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { createClient } from '@/src/lib/supabase/server';
 import { LogoutButton } from './logout-button';
-import {getTranslations} from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 
 export async function AuthButton() {
   const supabase = await createClient();

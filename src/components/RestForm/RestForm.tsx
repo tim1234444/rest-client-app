@@ -187,12 +187,12 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="url">URL</Label>
+              <Label htmlFor="url">{t('url')}</Label>
               <Input
                 type="text"
                 id="url"
                 name="url"
-                placeholder="Enter URL"
+                placeholder={t('enterurl')}
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value);
@@ -206,14 +206,14 @@ export default function RestClient() {
               <div className="flex gap-2">
                 <Input
                   type="text"
-                  placeholder="Header Name"
+                  placeholder={t('name')}
                   value={headerName}
                   onChange={(e) => setHeaderName(e.target.value)}
                   className="flex-1"
                 />
                 <Input
                   type="text"
-                  placeholder="Header Value"
+                  placeholder={t('value')}
                   value={headerValue}
                   onChange={(e) => setHeaderValue(e.target.value)}
                   className="flex-1"
@@ -253,7 +253,7 @@ export default function RestClient() {
                         )
                       }
                     >
-                      Delete
+                      {t('delete')}
                     </Button>
                   </li>
                 ))}
@@ -261,7 +261,7 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="typeBody">Body Type</Label>
+              <Label htmlFor="typeBody">{t('type')}</Label>
               <select
                 id="typeBody"
                 name="typeBody"
@@ -289,7 +289,7 @@ export default function RestClient() {
               {isLoading && (
                 <span className="animate-spin h-5 w-5 border-2 border-t-transparent border-white rounded-full"></span>
               )}
-              {isLoading ? 'Sending…' : `${t('send')}`}
+              {isLoading ? `${t('sending')}` : `${t('send')}`}
             </Button>
           </form>
         </CardContent>
@@ -299,7 +299,9 @@ export default function RestClient() {
           <>
             {status && !fetchError && (
               <>
-                <h2 className="mb-2">Status: {status}</h2>
+                <h2 className="mb-2">
+                  {t('status')}: {status}
+                </h2>
                 <Editor
                   height="200px"
                   defaultLanguage="json"
@@ -314,7 +316,7 @@ export default function RestClient() {
         {fetchError && <div className="text-sm text-red-500">{fetchError}</div>}
         {!fetchError && !res && (
           <div className="border rounded p-4 text-gray-400 h-full flex items-center justify-center">
-            Response will appear here
+            {t('response')}
           </div>
         )}
       </div>

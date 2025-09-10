@@ -12,7 +12,9 @@ export default async function ProtectedPage() {
 
   return (
     <>
-      <div>{t('helloback')}, {data.user?.email}</div>
+      <div>
+        {t('helloback')}, {data.user?.email}
+      </div>
     </>
   );
 }

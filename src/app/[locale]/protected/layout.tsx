@@ -8,7 +8,6 @@ import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { getTranslations } from 'next-intl/server';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 
-
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('footer');
   const tn = await getTranslations('nav');

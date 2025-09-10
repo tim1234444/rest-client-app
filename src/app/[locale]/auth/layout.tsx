@@ -6,7 +6,6 @@ import { Link } from '@/src/i18n/navigation';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 import { getTranslations } from 'next-intl/server';
 
-
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('root');
   const tf = await getTranslations('footer');

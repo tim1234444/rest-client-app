@@ -8,30 +8,30 @@ export default function LangSwitcher() {
   const locale = useLocale();
   const pathName = usePathname();
   return (
-      <fieldset className="flex gap-2">
-        <legend className='text-center'> {t('lang')}:</legend>
-        <input
-          type="radio"
-          name="language"
-          id="en"
-          value={'en'}
-          checked={locale === 'en' ? true : false}
-          onChange={async (e) => {
-            router.replace(pathName, { locale: e.target.value });
-          }}
-        />
-        <label htmlFor="en">{t('en')}</label>
-        <input
-          type="radio"
-          name="language"
-          id="ru"
-          value={'ru'}
-          checked={locale === 'ru' ? true : false}
-          onChange={async (e) => {
-            router.replace(pathName, { locale: e.target.value });
-          }}
-        />
-        <label htmlFor="ru">{t('ru')}</label>
-      </fieldset>
+    <fieldset className="flex gap-2">
+      <legend className="text-center"> {t('lang')}:</legend>
+      <input
+        type="radio"
+        name="language"
+        id="en"
+        value={'en'}
+        checked={locale === 'en' ? true : false}
+        onChange={async (e) => {
+          router.replace(pathName, { locale: e.target.value });
+        }}
+      />
+      <label htmlFor="en">{t('en')}</label>
+      <input
+        type="radio"
+        name="language"
+        id="ru"
+        value={'ru'}
+        checked={locale === 'ru' ? true : false}
+        onChange={async (e) => {
+          router.replace(pathName, { locale: e.target.value });
+        }}
+      />
+      <label htmlFor="ru">{t('ru')}</label>
+    </fieldset>
   );
 }

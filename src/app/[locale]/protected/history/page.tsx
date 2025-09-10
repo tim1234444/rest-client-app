@@ -8,10 +8,11 @@ import {
   CardDescription,
 } from '@/src/components/ui/card';
 import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 export default async function History() {
   const supabase = await createClient();
-
+  const t = await getTranslations('history');
   const { data, error: err } = await supabase.auth.getUser();
   if (err || !data?.user) {
     redirect('/auth/login');
@@ -45,13 +46,11 @@ export default async function History() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>History and analytics</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
           <CardDescription>No requests yet</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            You haven’t executed any requests. It’s empty here.
-          </p>
+          <p className="text-sm text-muted-foreground">{t('notrequst')}</p>
         </CardContent>
       </Card>
     );
@@ -60,22 +59,22 @@ export default async function History() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>History and analytics</CardTitle>
-        <CardDescription>Overview of executed requests</CardDescription>
+        <CardTitle>{t('title')}</CardTitle>
+        <CardDescription>{t('description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <table className="min-w-full border border-border text-sm">
             <thead className="bg-muted/50">
               <tr>
-                <th className="px-4 py-2 text-left font-medium">Request Duration</th>
-                <th className="px-4 py-2 text-left font-medium">Response Status Code</th>
-                <th className="px-4 py-2 text-left font-medium">Request Timestamp</th>
-                <th className="px-4 py-2 text-left font-medium">Request Method</th>
-                <th className="px-4 py-2 text-left font-medium">Request Size</th>
-                <th className="px-4 py-2 text-left font-medium">Response Size</th>
-                <th className="px-4 py-2 text-left font-medium">Error Details</th>
-                <th className="px-4 py-2 text-left font-medium">Endpoint / URL</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col1')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col2')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col3')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col4')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col5')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col6')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col7')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col8')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
