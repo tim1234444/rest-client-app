@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/ca
 import { schema } from '@/src/schemas';
 import { ValidationError } from 'yup';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 type ReplaceURLParams = {
   method?: string;
   url?: string;
@@ -31,6 +32,7 @@ export default function RestClient() {
   // Получение параметров для востановления полей из URL
   const params: { params: string[] } = useParams();
   const searchParams = useSearchParams();
+  const t = useTranslations('client');
 
   // Получение значений из параметров и привязка их к переменным
   const [parseMethod, parseUrl, parseBody, parseHeaders] = useMemo(() => {
@@ -141,7 +143,7 @@ export default function RestClient() {
     serRes('');
     setStatus(0);
     setFetchError('');
-    
+
     // Получение и преобразование всех необходимых полей для изменения URL
     const headersObj = Object.fromEntries(headers.map((h) => [h.key, h.value]));
     const params = new URLSearchParams(headersObj).toString();
@@ -200,12 +202,12 @@ export default function RestClient() {
     <>
       <Card className="max-w-3xl mx-auto p-4">
         <CardHeader>
-          <CardTitle className="text-2xl">REST Client</CardTitle>
+          <CardTitle className="text-2xl">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => fetchFrom(e, headersList, body)} className="flex flex-col gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="method">Method</Label>
+              <Label htmlFor="method">{t('method')}</Label>
               <select
                 id="method"
                 name="method"
@@ -225,12 +227,12 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="url">URL</Label>
+              <Label htmlFor="url">{t('url')}</Label>
               <Input
                 type="text"
                 id="url"
                 name="url"
-                placeholder="Enter URL"
+                placeholder={t('enterurl')}
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value);
@@ -240,18 +242,18 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label>Headers</Label>
+              <Label>{t('headers')}</Label>
               <div className="flex gap-2">
                 <Input
                   type="text"
-                  placeholder="Header Name"
+                  placeholder={t('name')}
                   value={headerName}
                   onChange={(e) => setHeaderName(e.target.value)}
                   className="flex-1"
                 />
                 <Input
                   type="text"
-                  placeholder="Header Value"
+                  placeholder={t('value')}
                   value={headerValue}
                   onChange={(e) => setHeaderValue(e.target.value)}
                   className="flex-1"
@@ -268,7 +270,7 @@ export default function RestClient() {
                     }
                   }}
                 >
-                  Add
+                  {t('add')}
                 </Button>
               </div>
               <ul className="space-y-1 mt-2">
@@ -289,27 +291,25 @@ export default function RestClient() {
                         setHeadersList((prev) => prev.filter((h) => h.key !== item.key))
                       }
                     >
-                      Delete
+                      {t('delete')}
                     </Button>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="grid gap-2">
-            <Label htmlFor="typeBody">Code Generator</Label>
+              <Label htmlFor="typeBody">Code Generator</Label>
               <select
                 id="typeCode"
                 name="typeCode"
                 value={`${lang.language} ${lang.variant}`}
                 onChange={(e) => {
-                  const langAndVariant = e.target.value.split(' ')
+                  const langAndVariant = e.target.value.split(' ');
                   setLang({
                     language: langAndVariant[0],
-                    variant: langAndVariant[1]
-                  })
-
-                }
-                }
+                    variant: langAndVariant[1],
+                  });
+                }}
                 className="border rounded-md px-3 py-1 w-32"
               >
                 <option value="curl curl">curl</option>
@@ -330,7 +330,7 @@ export default function RestClient() {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="typeBody">Body Type</Label>
+              <Label htmlFor="typeBody">{t('type')}</Label>
               <select
                 id="typeBody"
                 name="typeBody"
@@ -358,7 +358,7 @@ export default function RestClient() {
               {isLoading && (
                 <span className="animate-spin h-5 w-5 border-2 border-t-transparent border-white rounded-full"></span>
               )}
-              {isLoading ? 'Sending…' : 'Send Request'}
+              {isLoading ? `${t('sending')}` : `${t('send')}`}
             </Button>
           </form>
         </CardContent>
@@ -368,7 +368,9 @@ export default function RestClient() {
           <>
             {status && !fetchError && (
               <>
-                <h2 className="mb-2">Status: {status}</h2>
+                <h2 className="mb-2">
+                  {t('status')}: {status}
+                </h2>
                 <Editor
                   height="200px"
                   defaultLanguage="json"
@@ -383,7 +385,7 @@ export default function RestClient() {
         {fetchError && <div className="text-sm text-red-500">{fetchError}</div>}
         {!fetchError && !res && (
           <div className="border rounded p-4 text-gray-400 h-full flex items-center justify-center">
-            Response will appear here
+            {t('response')}
           </div>
         )}
       </div>

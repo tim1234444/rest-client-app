@@ -1,0 +1,84 @@
+{
+  "root": {
+    "title": "Home",
+    "lang": "Change lang",
+    "en": "English",
+    "ru": "Russian",
+    "locale": "en",
+    "signin": "Sign in",
+    "signup": "Sign up",
+    "hello": "Welcome",
+    "hey": "Hey",
+    "helloback": "Welcome Back"
+  },
+
+  "login": {
+    "login": "Login",
+    "description": "Enter your email below to login to your account",
+    "email": "Email",
+    "password": "Password",
+    "forgot": "Forgot your password",
+    "account": "Don't have an account",
+    "signup": "Sign up",
+    "logout": "Logout"
+  },
+
+  "signup": {
+    "login": "Login",
+    "signup": "Sign up",
+    "description": "Create a new account",
+    "email": "Email",
+    "password": "Password",
+    "repeat": "Repeat Password",
+    "haveacount": "Already have an account"
+  },
+
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+
+  "nav": {
+    "home": "Home",
+    "client": "Rest client",
+    "history": "History and analytics"
+  },
+
+  "footer": {
+    "co": "Powered by",
+    "supabase": "Supabase"
+  },
+
+  "client": {
+    "title": "REST Client",
+    "method": "Method",
+    "headers": "Headers",
+    "add": "Add header",
+    "send": "Send Request",
+    "sending": "Sending…",
+    "type": "Body Type",
+    "url": "URL",
+    "enterurl": "Enter URL",
+    "status": "Status",
+    "delete": "Delete",
+    "response": "Response will appear here",
+    "name": "Header Name",
+    "value": "Header Value"
+  },
+
+  "history": {
+    "title": "History and analytics",
+    "notrequst": "You haven't executed any requests. It's empty here.",
+    "description": "Overview of executed requests",
+    "col1": "Request Duration",
+    "col2": "Response Status Code",
+    "col3": "Request Timestamp",
+    "col4": "Request Method",
+    "col5": "Request Size",
+    "col6": "Response Size",
+    "col7": "Error Details",
+    "col8": "Endpoint / URL",
+    "restore": "Restore request"
+  }
+}
