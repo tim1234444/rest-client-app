@@ -10,10 +10,11 @@ interface VariableItem {
   value: string;
 }
 
-// Константа для префикса
-const VARIABLE_PREFIX = "REST_VAR_";
+interface VariablesFormProps {
+  id: string | undefined;
+}
 
-export default function VariablesForm() {
+export default function VariablesForm({ id = '' }: VariablesFormProps) {
   const [variable, setVariable] = useState<string>("");
   const [value, setValue] = useState<string>("");
   const [variablesList, setVariablesList] = useState<VariableItem[]>([]);
@@ -22,9 +23,9 @@ export default function VariablesForm() {
   useEffect(() => {
     const savedVariables: VariableItem[] = [];
     for (let i = 0; i < localStorage.length; i++) {
-      const fullKey = localStorage.key(i); // Полный ключ, например, "REST_VAR_api_key"
-      if (fullKey && fullKey.startsWith(VARIABLE_PREFIX)) {
-        const displayName = fullKey.replace(VARIABLE_PREFIX, ""); // Убираем префикс для отображения
+      const fullKey = localStorage.key(i); // Полный ключ, например, "id_key"
+      if (fullKey && fullKey.startsWith(id)) {
+        const displayName = fullKey.replace(id, ""); // Убираем префикс для отображения
         const value = localStorage.getItem(fullKey) || "";
         savedVariables.push({ key: displayName, value });
       }
@@ -35,12 +36,7 @@ export default function VariablesForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!variable.trim()) {
-      alert("Variable name cannot be empty.");
-      return;
-    }
-
-    const storageKey = VARIABLE_PREFIX + variable;
+    const storageKey = id + variable;
     localStorage.setItem(storageKey, value);
 
     // Обновляем локальный стейт
@@ -59,19 +55,16 @@ export default function VariablesForm() {
     // Очищаем поля ввода после успешного сохранения
     setVariable("");
     setValue("");
-    alert(`Variable "${variable}" saved successfully!`);
   }
 
   // Обработчик удаления переменной
   const handleDelete = (keyToDelete: string) => {
     // Удаляем из localStorage
-    const storageKey = VARIABLE_PREFIX + keyToDelete;
+    const storageKey = id + keyToDelete;
     localStorage.removeItem(storageKey);
 
     // Удаляем из локального стейта
     setVariablesList((prev) => prev.filter((item) => item.key !== keyToDelete));
-
-    alert(`Variable "${keyToDelete}" deleted.`);
   };
 
   return (
@@ -79,7 +72,7 @@ export default function VariablesForm() {
         <CardHeader>
           <CardTitle>Variables</CardTitle>
           <p className="text-sm text-muted-foreground">
-          Define variables to use in your requests (e.g., <code>{"{{variableName}}"}</code> in URL, headers, or body).
+          Define variables to use in your requests (e.g., <code>{"{{variableName}}"}</code> in URL, headers or body).
         </p>
         </CardHeader>
         <CardContent>
@@ -90,7 +83,7 @@ export default function VariablesForm() {
                 <Input
                   id="variable" 
                   type="text" 
-                  placeholder="Enter variable"
+                  placeholder="Enter variable name"
                   value={variable}
                   onChange={(e) => setVariable(e.target.value)}
                   required
@@ -129,17 +122,16 @@ export default function VariablesForm() {
                 {variablesList.length > 0 ?
                 variablesList.map((item) => (
                   <tr key={item.key}>
-                    <td className="font-medium">
-                      <code>{"{{" + item.key + "}}"}</code>
+                    <td className="font-medium p-2">
+                      <span>{item.key}</span>
                     </td>
-                    <td className="text-sm">
+                    <td className="text-sm p-2">
                       <span className="truncate block max-w-xs md:max-w-md">
                         {item.value}
                       </span>
                     </td>
                     <td className="text-right">
                       <Button
-                        variant="destructive"
                         size="sm"
                         onClick={() => handleDelete(item.key)}
                       >
