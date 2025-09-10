@@ -1,7 +1,10 @@
 'use client';
-
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { Request } = require('postman-collection');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const Codegen = require('postman-code-generators');
 import { Editor } from '@monaco-editor/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
@@ -17,8 +20,8 @@ type ReplaceURLParams = {
   body?: string;
 };
 type headersList = {
-  headerValue: string;
-  headerName: string;
+  key: string;
+  value: string;
 }[];
 type DataType = {
   url: string;
@@ -39,8 +42,8 @@ export default function RestClient() {
     const url = arr[1] ? atob(decodeURIComponent(arr[1])) : '';
     const body = arr[2] ? atob(decodeURIComponent(arr[2])) : '';
     const headers = Array.from(searchParams.entries()).map(([headerName, headerValue]) => ({
-      headerName,
-      headerValue,
+      key: headerName,
+      value: headerValue,
     }));
     return [method, url, body, headers];
   }, [params.params, searchParams]);
@@ -51,6 +54,43 @@ export default function RestClient() {
   const [body, setBody] = useState(parseBody);
   const [headersList, setHeadersList] = useState<headersList>(parseHeaders);
 
+  const [snippet, setSnippet] = useState('');
+  const [lang, setLang] = useState({
+    language: 'curl',
+    variant: 'curl',
+  });
+  useEffect(() => {
+    const request = new Request({
+      url: url,
+      method: method,
+      header: headersList,
+      body: {
+        mode: 'raw',
+        raw: body,
+      },
+    });
+
+    const options = {
+      indentCount: 2,
+      indentType: 'Space',
+      trimRequestBody: true,
+    };
+
+    Codegen.convert(
+      lang.language,
+      lang.variant,
+      request,
+      options,
+      (error: Error | null, snippet: string) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(snippet);
+          setSnippet(snippet);
+        }
+      },
+    );
+  }, [method, url, body, headersList, lang]);
   // Тип данных в текстовом редакторе
   const [typeBody, setTypeBody] = useState('JSON');
 
@@ -105,7 +145,7 @@ export default function RestClient() {
     setFetchError('');
 
     // Получение и преобразование всех необходимых полей для изменения URL
-    const headersObj = Object.fromEntries(headers.map((h) => [h.headerName, h.headerValue]));
+    const headersObj = Object.fromEntries(headers.map((h) => [h.key, h.value]));
     const params = new URLSearchParams(headersObj).toString();
     const requestUrl = window.btoa(url);
     const requestBody = window.btoa(body);
@@ -223,7 +263,7 @@ export default function RestClient() {
                   onClick={() => {
                     if (headerName && headerValue) {
                       setHeadersList((prev) => {
-                        const updated = [...prev, { headerName, headerValue }];
+                        const updated = [...prev, { key: headerName, value: headerValue }];
 
                         return updated;
                       });
@@ -236,21 +276,19 @@ export default function RestClient() {
               <ul className="space-y-1 mt-2">
                 {headersList.map((item) => (
                   <li
-                    key={item.headerName + item.headerValue}
+                    key={item.key + item.value}
                     className="flex justify-between items-center border p-2 rounded"
                   >
                     <div className="flex gap-4 justify-between w-[90%] mx-auto">
-                      <p className="font-medium">{item.headerName}</p>
-                      <p>{item.headerValue}</p>
+                      <p className="font-medium">{item.key}</p>
+                      <p>{item.value}</p>
                     </div>
                     <Button
                       type="button"
                       variant="ghost"
                       className="text-red-500 hover:underline"
                       onClick={() =>
-                        setHeadersList((prev) =>
-                          prev.filter((h) => h.headerName !== item.headerName),
-                        )
+                        setHeadersList((prev) => prev.filter((h) => h.key !== item.key))
                       }
                     >
                       {t('delete')}
@@ -258,6 +296,37 @@ export default function RestClient() {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="typeBody">Code Generator</Label>
+              <select
+                id="typeCode"
+                name="typeCode"
+                value={`${lang.language} ${lang.variant}`}
+                onChange={(e) => {
+                  const langAndVariant = e.target.value.split(' ');
+                  setLang({
+                    language: langAndVariant[0],
+                    variant: langAndVariant[1],
+                  });
+                }}
+                className="border rounded-md px-3 py-1 w-32"
+              >
+                <option value="curl curl">curl</option>
+                <option value="javascript fetch">JavaScript (Fetch API)</option>
+                <option value="javascript xhr">JavaScript (XHR)</option>
+                <option value="nodejs axios">NodeJS</option>
+                <option value="python requests">Python</option>
+                <option value="java okhttp">Java</option>
+                <option value="csharp restsharp">C#</option>
+                <option value="go native">Go</option>
+              </select>
+              <Editor
+                height="200px"
+                defaultLanguage="text"
+                value={snippet}
+                options={{ readOnly: true, minimap: { enabled: false } }}
+              />
             </div>
 
             <div className="grid gap-2">
