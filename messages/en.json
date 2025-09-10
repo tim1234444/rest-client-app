@@ -20,6 +20,7 @@
     "forgot": "Forgot your password",
     "account": "Don't have an account",
     "signup": "Sign up",
+    "logining": "Logging in...",
     "logout": "Logout"
   },
 
@@ -30,7 +31,8 @@
     "email": "Email",
     "password": "Password",
     "repeat": "Repeat Password",
-    "haveacount": "Already have an account"
+    "haveacount": "Already have an account",
+    "create": "Creating an account..."
   },
 
   "theme": {

@@ -87,7 +87,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Logging in...' : `${t('login')}`}
+                {isLoading ? `${t('logining')}` : `${t('login')}`}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
