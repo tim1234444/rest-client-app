@@ -31,7 +31,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
       }
     }
     setVariablesList(savedVariables);
-  }, []);
+  }, [id]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
