@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 interface IProps {
   request_duration: number;
@@ -16,6 +17,7 @@ interface IProps {
 }
 export default function RowButton({ value }: { value: IProps }) {
   const router = useRouter();
+  const t = useTranslations('history');
   return (
     <button
       onClick={() => {
@@ -30,7 +32,7 @@ export default function RowButton({ value }: { value: IProps }) {
       }}
       className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200"
     >
-      Restore request
+      {t('restore')}
     </button>
   );
 }
