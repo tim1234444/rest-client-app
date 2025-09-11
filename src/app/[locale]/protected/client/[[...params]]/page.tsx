@@ -1,4 +1,3 @@
-import RestClient from '@/src/components/RestForm/RestForm';
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
 export default async function Client() {
@@ -7,9 +6,6 @@ export default async function Client() {
   if (error || !data?.user) {
     redirect('/auth/login');
   }
-  return (
-    <>
-      <RestClient />
-    </>
-  );
+  const LazyRestClient = React.lazy(() => import('@/src/components/RestForm/RestForm'));
+  return <LazyRestClient />;
 }

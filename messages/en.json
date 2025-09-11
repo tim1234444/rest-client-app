@@ -87,7 +87,8 @@
 
   "history": {
     "title": "History and analytics",
-    "notrequst": "You haven't executed any requests. It's empty here.",
+    "notrequstdescription": "No requests yet",
+    "notrequstmssage": "You haven't executed any requests. It's empty here.",
     "description": "Overview of executed requests",
     "col1": "Request Duration",
     "col2": "Response Status Code",
@@ -97,6 +98,8 @@
     "col6": "Response Size",
     "col7": "Error Details",
     "col8": "Endpoint / URL",
-    "restore": "Restore request"
+    "restore": "Restore request",
+    "error": "Error",
+    "errordescription": "Something went wrong fetching history"
   }
 }

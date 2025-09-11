@@ -1,6 +1,6 @@
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import VariablesForm from '@/src/components/VariablesForm/VariablesForm';
+import React from 'react';
 
 export default async function Variables() {
   const supabase = await createClient();
@@ -10,10 +10,8 @@ export default async function Variables() {
   if (err || !data?.user) {
     redirect('/auth/login');
   }
-
-  return (
-    <>
-      <VariablesForm id={id} />
-    </>
+  const LazyVariablesForm = React.lazy(
+    () => import('@/src/components/VariablesForm/VariablesForm'),
   );
+  return <LazyVariablesForm id={id} />;
 }
