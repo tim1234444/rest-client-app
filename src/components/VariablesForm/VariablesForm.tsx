@@ -24,13 +24,12 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
   // Загружаем переменные из localStorage при монтировании компонента
   useEffect(() => {
     const stored = localStorage.getItem(id);
-    if (stored !== null ) {
+    if (stored !== null) {
       const historyValue = JSON.parse(stored);
-    
-    if (historyValue) setVariablesList(historyValue);
-    if (!historyValue) setVariablesList([]);
+
+      if (historyValue) setVariablesList(historyValue);
+      if (!historyValue) setVariablesList([]);
     }
-    
   }, [id]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,11 +54,10 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
       }
 
       if (varFilter.length === 0) {
-
         setVariablesList((prev) => {
           const newVal = [...prev, varObj];
           localStorage.setItem(id, JSON.stringify(newVal));
-          return [...newVal]
+          return [...newVal];
         });
       }
 
@@ -132,20 +130,21 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
                 variablesList.map((item) => {
                   const uuid = self.crypto.randomUUID();
                   return (
-                  <tr key={uuid}>
-                    <td className="font-medium p-2">
-                      <span>{item.varName}</span>
-                    </td>
-                    <td className="text-sm p-2">
-                      <span className="truncate block max-w-xs md:max-w-md">{item.varValue}</span>
-                    </td>
-                    <td className="text-right">
-                      <Button size="sm" onClick={() => handleDelete(item.varName)}>
-                        {t('delete')}
-                      </Button>
-                    </td>
-                  </tr>
-                )})
+                    <tr key={uuid}>
+                      <td className="font-medium p-2">
+                        <span>{item.varName}</span>
+                      </td>
+                      <td className="text-sm p-2">
+                        <span className="truncate block max-w-xs md:max-w-md">{item.varValue}</span>
+                      </td>
+                      <td className="text-right">
+                        <Button size="sm" onClick={() => handleDelete(item.varName)}>
+                          {t('delete')}
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td colSpan={3} className="h-24 text-center">

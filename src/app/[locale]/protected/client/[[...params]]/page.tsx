@@ -1,6 +1,6 @@
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import React from 'react';
+import dynamic from 'next/dynamic';
 export default async function Client() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
@@ -8,6 +8,8 @@ export default async function Client() {
   if (error || !data?.user) {
     redirect('/auth/login');
   }
-  const LazyRestClient = React.lazy(() => import('@/src/components/RestForm/RestForm'));
+  const LazyRestClient = dynamic(() => import('@/src/components/RestForm/RestForm'), {
+    loading: () => <p>Loading...</p>,
+  });
   return <LazyRestClient id={id} />;
 }
