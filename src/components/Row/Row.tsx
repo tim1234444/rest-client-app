@@ -1,6 +1,6 @@
 import RowButton from '../RowButton/RowButton';
-
-interface IProps {
+import { randomUUID } from 'crypto';
+export interface ITableProps {
   request_duration: number;
   response_status_code: number;
   request_timestamp: string;
@@ -14,10 +14,18 @@ interface IProps {
   request_body: string;
 }
 
-export default function Row({ index, value, id }: { index: number; value: IProps; id: number }) {
+export default function Row({
+  uuidKey,
+  value,
+  id,
+}: {
+  uuidKey: string;
+  value: ITableProps;
+  id: number;
+}) {
   return (
     <>
-      <tr key={index} data-id={id} className="hover:bg-muted/30 cursor-pointer">
+      <tr key={uuidKey} data-id={id} className="hover:bg-muted/30 cursor-pointer">
         {Object.entries(value).map(([key, val], i) => {
           let displayValue = val;
           if (key === 'request_headers' || key === 'request_body' || key === 'id') {
@@ -32,7 +40,7 @@ export default function Row({ index, value, id }: { index: number; value: IProps
 
           return (
             <td
-              key={i}
+              key={randomUUID()}
               className={`px-4 py-2 text-sm ${
                 i === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'
               }`}

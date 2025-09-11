@@ -13,6 +13,7 @@ import { schema } from '@/src/schemas';
 import { ValidationError } from 'yup';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { randomUUID } from 'crypto';
 type ReplaceURLParams = {
   method?: string;
   url?: string;
@@ -92,7 +93,6 @@ export default function RestClient({ id = '' }: Props) {
         if (error) {
           console.error(error);
         } else {
-          console.log(snippet);
           setSnippet(substitute(snippet, variables));
         }
       },
@@ -310,7 +310,7 @@ export default function RestClient({ id = '' }: Props) {
               <ul className="space-y-1 mt-2">
                 {headersList.map((item) => (
                   <li
-                    key={item.key + item.value}
+                    key={randomUUID()}
                     className="flex justify-between items-center border p-2 rounded"
                   >
                     <div className="flex gap-4 justify-between w-[90%] mx-auto">
