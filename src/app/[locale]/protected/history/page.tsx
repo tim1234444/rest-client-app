@@ -1,7 +1,6 @@
 import React from 'react';
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
-
 export default async function History() {
   const supabase = await createClient();
   const { data, error: err } = await supabase.auth.getUser();

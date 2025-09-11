@@ -1,5 +1,5 @@
 import RowButton from '../RowButton/RowButton';
-
+import { randomUUID } from 'crypto';
 export interface ITableProps {
   request_duration: number;
   response_status_code: number;
@@ -28,7 +28,6 @@ export default function Row({
       <tr key={uuidKey} data-id={id} className="hover:bg-muted/30 cursor-pointer">
         {Object.entries(value).map(([key, val], i) => {
           let displayValue = val;
-          const uuid = self.crypto.randomUUID();
           if (key === 'request_headers' || key === 'request_body' || key === 'id') {
             return null;
           }
@@ -41,7 +40,7 @@ export default function Row({
 
           return (
             <td
-              key={uuid}
+              key={randomUUID()}
               className={`px-4 py-2 text-sm ${
                 i === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'
               }`}

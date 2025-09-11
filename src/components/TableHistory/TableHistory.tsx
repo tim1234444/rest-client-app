@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui/card';
 import { getTranslations } from 'next-intl/server';
 import Row from '../Row/Row';
@@ -7,7 +8,7 @@ export default async function TableHistory({
   history_and_analytics,
   error,
 }: {
-  history_and_analytics: ITableProps[];
+  history_and_analytics: ITableProps[] | null;
   error: PostgrestError | null;
 }) {
   const t = await getTranslations('history');
@@ -64,8 +65,7 @@ export default async function TableHistory({
             </thead>
             <tbody className="divide-y divide-border">
               {history_and_analytics.map((row) => {
-                const uuid = self.crypto.randomUUID();
-                return (<Row key={self.crypto.randomUUID()} uuidKey={uuid} value={row} id={row.id} />)
+                return (<Row key={randomUUID()} uuidKey={randomUUID()} value={row} id={row.id} />)
               })}
             </tbody>
           </table>

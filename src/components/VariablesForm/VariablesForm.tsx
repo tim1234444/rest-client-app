@@ -5,6 +5,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useTranslations } from 'next-intl';
+import { randomUUID } from 'crypto';
 
 interface VariableItem {
   varName: string;
@@ -23,10 +24,14 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
 
   // Загружаем переменные из localStorage при монтировании компонента
   useEffect(() => {
-    const historyValue = JSON.parse(`${localStorage.getItem(id)}`);
+    const stored = localStorage.getItem(id);
+    if (stored !== null ) {
+      const historyValue = JSON.parse(stored);
     
     if (historyValue) setVariablesList(historyValue);
     if (!historyValue) setVariablesList([]);
+    }
+    
   }, [id]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +56,12 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
       }
 
       if (varFilter.length === 0) {
-        variablesList.push(varObj);
+
+        setVariablesList((prev) => {
+          const newVal = [...prev, varObj];
+          localStorage.setItem(id, JSON.stringify(newVal));
+          return [...newVal]
+        });
       }
 
       localStorage.setItem(id, JSON.stringify(variablesList));
@@ -120,8 +130,9 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
             </thead>
             <tbody className="divide-y divide-border">
               {variablesList.length > 0 ? (
-                variablesList.map((item) => (
-                  <tr key={self.crypto.randomUUID()}>
+                variablesList.map((item) => {
+                  return (
+                  <tr key={randomUUID()}>
                     <td className="font-medium p-2">
                       <span>{item.varName}</span>
                     </td>
@@ -134,7 +145,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
                       </Button>
                     </td>
                   </tr>
-                ))
+                )})
               ) : (
                 <tr>
                   <td colSpan={3} className="h-24 text-center">
