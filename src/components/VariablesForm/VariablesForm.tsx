@@ -23,7 +23,8 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
 
   // Загружаем переменные из localStorage при монтировании компонента
   useEffect(() => {
-    const historyValue = JSON.parse(localStorage.getItem(id));
+    const historyValue = JSON.parse(`${localStorage.getItem(id)}`);
+    
     if (historyValue) setVariablesList(historyValue);
     if (!historyValue) setVariablesList([]);
   }, [id]);
@@ -120,7 +121,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
             <tbody className="divide-y divide-border">
               {variablesList.length > 0 ? (
                 variablesList.map((item) => (
-                  <tr key={item.varName}>
+                  <tr key={self.crypto.randomUUID()}>
                     <td className="font-medium p-2">
                       <span>{item.varName}</span>
                     </td>

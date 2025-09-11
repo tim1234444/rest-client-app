@@ -276,7 +276,7 @@ export default function RestClient() {
               <ul className="space-y-1 mt-2">
                 {headersList.map((item) => (
                   <li
-                    key={item.key + item.value}
+                    key={self.crypto.randomUUID()}
                     className="flex justify-between items-center border p-2 rounded"
                   >
                     <div className="flex gap-4 justify-between w-[90%] mx-auto">

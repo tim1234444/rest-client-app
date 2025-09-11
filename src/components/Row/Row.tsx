@@ -15,19 +15,20 @@ export interface ITableProps {
 }
 
 export default function Row({
-  index,
+  uuidKey,
   value,
   id,
 }: {
-  index: number;
+  uuidKey: string;
   value: ITableProps;
   id: number;
 }) {
   return (
     <>
-      <tr key={index} data-id={id} className="hover:bg-muted/30 cursor-pointer">
+      <tr key={uuidKey} data-id={id} className="hover:bg-muted/30 cursor-pointer">
         {Object.entries(value).map(([key, val], i) => {
           let displayValue = val;
+          const uuid = self.crypto.randomUUID();
           if (key === 'request_headers' || key === 'request_body' || key === 'id') {
             return null;
           }
@@ -40,7 +41,7 @@ export default function Row({
 
           return (
             <td
-              key={i}
+              key={uuid}
               className={`px-4 py-2 text-sm ${
                 i === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'
               }`}

@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../ui
 import { getTranslations } from 'next-intl/server';
 import Row from '../Row/Row';
 import type { ITableProps } from '../Row/Row';
+import { PostgrestError } from '@supabase/supabase-js';
 export default async function TableHistory({
   history_and_analytics,
   error,
@@ -62,8 +63,9 @@ export default async function TableHistory({
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {history_and_analytics.map((row, index) => {
-                return <Row key={index} index={index} value={row} id={row.id} />;
+              {history_and_analytics.map((row) => {
+                const uuid = self.crypto.randomUUID();
+                return (<Row key={self.crypto.randomUUID()} uuidKey={uuid} value={row} id={row.id} />)
               })}
             </tbody>
           </table>
