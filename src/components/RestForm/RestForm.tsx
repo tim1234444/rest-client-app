@@ -27,8 +27,14 @@ type DataType = {
   url: string;
   method: string;
 };
-
-export default function RestClient() {
+type Props = {
+  id: string | undefined;
+};
+interface VariableItem {
+  varName: string;
+  varValue: string;
+}
+export default function RestClient({ id = '' }: Props) {
   // Получение параметров для востановления полей из URL
   const params: { params: string[] } = useParams();
   const searchParams = useSearchParams();
@@ -59,6 +65,7 @@ export default function RestClient() {
     language: 'curl',
     variant: 'curl',
   });
+
   useEffect(() => {
     const request = new Request({
       url: url,
@@ -86,7 +93,7 @@ export default function RestClient() {
           console.error(error);
         } else {
           console.log(snippet);
-          setSnippet(snippet);
+          setSnippet(substitute(snippet, variables));
         }
       },
     );
@@ -108,6 +115,8 @@ export default function RestClient() {
   const [res, serRes] = useState('');
   const [status, setStatus] = useState<number>();
   const [fetchError, setFetchError] = useState('');
+
+  const [variables, setVariables] = useState<VariableItem[]>([]);
 
   // Функция валидации
   async function Validate(formData: DataType) {
@@ -131,6 +140,29 @@ export default function RestClient() {
     }
   }
 
+  // Получение перменных из хранилища
+  useEffect(() => {
+    if (id) {
+      const stored = localStorage.getItem(id);
+      if (stored !== null) {
+        setVariables(JSON.parse(stored) as VariableItem[]);
+      }
+    }
+  }, [id]);
+
+  function substitute(template: string, variables: VariableItem[]): string {
+    return template.replace(/{{(.*?)}}/g, (fullValue, key) => {
+      const found = variables.find((v) => v.varName === key.trim());
+      return found ? found.varValue : fullValue;
+    });
+  }
+  function substituteHeaders(headers: headersList, variables: VariableItem[]): headersList {
+    return headers.map((header) => ({
+      key: substitute(header.key, variables),
+      value: substitute(header.value, variables),
+    }));
+  }
+
   // Отправка запроса
   const fetchFrom = async function (
     e: React.FormEvent<HTMLFormElement>,
@@ -144,18 +176,20 @@ export default function RestClient() {
     setStatus(0);
     setFetchError('');
 
-    // Получение и преобразование всех необходимых полей для изменения URL
-    const headersObj = Object.fromEntries(headers.map((h) => [h.key, h.value]));
+    // Замена переменных на значения в header
+    const substituteHeader = substituteHeaders(headers, variables);
+    const headersObj = Object.fromEntries(substituteHeader.map((h) => [h.key, h.value]));
     const params = new URLSearchParams(headersObj).toString();
-    const requestUrl = window.btoa(url);
-    const requestBody = window.btoa(body);
+    // Замена переменных на значения в URL, body и
+    const requestUrl = substitute(url, variables);
+    const requestBody = substitute(body, variables);
     const requestMethod = method;
     // Замена URL
     replaseURL({
       method: requestMethod,
-      url: '/' + requestUrl,
+      url: '/' + window.btoa(requestUrl),
       headers: '?' + params,
-      body: '/' + requestBody,
+      body: '/' + window.btoa(requestBody),
     });
 
     const formData = new FormData(e.currentTarget);
@@ -170,10 +204,10 @@ export default function RestClient() {
         },
         method: 'POST',
         body: JSON.stringify({
-          method: formData.get('method'),
-          url: formData.get('url'),
+          method: requestMethod,
+          url: requestUrl,
           headers: headersObj,
-          body: body,
+          body: requestBody,
         }),
       });
 
