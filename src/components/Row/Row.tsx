@@ -37,10 +37,10 @@ export default function Row({
               timeStyle: 'medium',
             });
           }
-
+          const uuid = randomUUID();
           return (
             <td
-              key={randomUUID()}
+              key={uuid}
               className={`px-4 py-2 text-sm ${
                 i === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'
               }`}

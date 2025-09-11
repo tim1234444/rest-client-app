@@ -65,7 +65,8 @@ export default async function TableHistory({
             </thead>
             <tbody className="divide-y divide-border">
               {history_and_analytics.map((row) => {
-                return (<Row key={randomUUID()} uuidKey={randomUUID()} value={row} id={row.id} />)
+                const uuid = randomUUID();
+                return (<Row key={uuid} uuidKey={uuid} value={row} id={row.id} />)
               })}
             </tbody>
           </table>

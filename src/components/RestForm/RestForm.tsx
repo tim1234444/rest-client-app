@@ -13,7 +13,6 @@ import { schema } from '@/src/schemas';
 import { ValidationError } from 'yup';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { randomUUID } from 'crypto';
 type ReplaceURLParams = {
   method?: string;
   url?: string;
@@ -308,9 +307,11 @@ export default function RestClient({ id = '' }: Props) {
                 </Button>
               </div>
               <ul className="space-y-1 mt-2">
-                {headersList.map((item) => (
+                {headersList.map((item) => {
+                  const uuid = self.crypto.randomUUID();
+                  return (
                   <li
-                    key={randomUUID()}
+                    key={uuid}
                     className="flex justify-between items-center border p-2 rounded"
                   >
                     <div className="flex gap-4 justify-between w-[90%] mx-auto">
@@ -328,7 +329,7 @@ export default function RestClient({ id = '' }: Props) {
                       {t('delete')}
                     </Button>
                   </li>
-                ))}
+                )})}
               </ul>
             </div>
             <div className="grid gap-2">

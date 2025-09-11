@@ -5,7 +5,6 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useTranslations } from 'next-intl';
-import { randomUUID } from 'crypto';
 
 interface VariableItem {
   varName: string;
@@ -131,8 +130,9 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
             <tbody className="divide-y divide-border">
               {variablesList.length > 0 ? (
                 variablesList.map((item) => {
+                  const uuid = self.crypto.randomUUID();
                   return (
-                  <tr key={randomUUID()}>
+                  <tr key={uuid}>
                     <td className="font-medium p-2">
                       <span>{item.varName}</span>
                     </td>
