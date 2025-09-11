@@ -310,26 +310,24 @@ export default function RestClient({ id = '' }: Props) {
                 {headersList.map((item) => {
                   const uuid = self.crypto.randomUUID();
                   return (
-                  <li
-                    key={uuid}
-                    className="flex justify-between items-center border p-2 rounded"
-                  >
-                    <div className="flex gap-4 justify-between w-[90%] mx-auto">
-                      <p className="font-medium">{item.key}</p>
-                      <p>{item.value}</p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="text-red-500 hover:underline"
-                      onClick={() =>
-                        setHeadersList((prev) => prev.filter((h) => h.key !== item.key))
-                      }
-                    >
-                      {t('delete')}
-                    </Button>
-                  </li>
-                )})}
+                    <li key={uuid} className="flex justify-between items-center border p-2 rounded">
+                      <div className="flex gap-4 justify-between w-[90%] mx-auto">
+                        <p className="font-medium">{item.key}</p>
+                        <p>{item.value}</p>
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="text-red-500 hover:underline"
+                        onClick={() =>
+                          setHeadersList((prev) => prev.filter((h) => h.key !== item.key))
+                        }
+                      >
+                        {t('delete')}
+                      </Button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="grid gap-2">

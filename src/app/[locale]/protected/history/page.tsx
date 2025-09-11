@@ -1,4 +1,4 @@
-import React from 'react';
+import dynamic from 'next/dynamic';
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
 export default async function History() {
@@ -7,7 +7,9 @@ export default async function History() {
   if (err || !data?.user) {
     redirect('/auth/login');
   }
-  const LazyTableHistory = React.lazy(() => import('@/src/components/TableHistory/TableHistory'));
+  const LazyTableHistory = dynamic(() => import('@/src/components/TableHistory/TableHistory'), {
+    loading: () => <p>Loading...</p>,
+  });
   const userInfo = data.user;
 
   const { data: history_and_analytics, error } = await supabase
