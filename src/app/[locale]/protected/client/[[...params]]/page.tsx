@@ -4,12 +4,13 @@ import { redirect } from 'next/navigation';
 export default async function Client() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
+  const id = data.user?.id;
   if (error || !data?.user) {
     redirect('/auth/login');
   }
   return (
     <>
-      <RestClient />
+      <RestClient id={id}/>
     </>
   );
 }
