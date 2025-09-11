@@ -12,9 +12,8 @@ export default async function Variables() {
   }
 
   return (
-      <>
-        <VariablesForm id={id}/>
-      </>
-    );
-
+    <>
+      <VariablesForm id={id} />
+    </>
+  );
 }
