@@ -44,12 +44,28 @@
   "nav": {
     "home": "Home",
     "client": "Rest client",
-    "history": "History and analytics"
+    "history": "History and analytics",
+    "var": "Variables"
   },
 
   "footer": {
     "co": "Powered by",
     "supabase": "Supabase"
+  },
+
+  "variables": {
+    "title": "Variables",
+    "description": "Define variables to use in your requests (e.g., ",
+    "descriptionend": "in URL, headers or body).",
+    "name": "Variable Name",
+    "value": "Variable Value",
+    "save": "Save",
+    "notfound": "No variables found. Add one above!",
+    "col1": "Variable",
+    "col2": "Value",
+    "val1": "Enter variable name",
+    "val2": "Enter variable value",
+    "delete": "Delete"
   },
 
   "client": {

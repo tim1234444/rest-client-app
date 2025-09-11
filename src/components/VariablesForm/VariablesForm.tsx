@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useTranslations } from 'next-intl';
 
 interface VariableItem {
   varName: string;
@@ -18,6 +19,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
   const [variable, setVariable] = useState('');
   const [value, setValue] = useState('');
   const [variablesList, setVariablesList] = useState<VariableItem[]>([]);
+  const t = useTranslations('variables');
 
   // Загружаем переменные из localStorage при монтировании компонента
   useEffect(() => {
@@ -71,21 +73,21 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader>
-        <CardTitle>Variables</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Define variables to use in your requests (e.g., <code>{'{{variableName}}'}</code> in URL,
-          headers or body).
+          {' '}
+          {t('description')} <code>{'{{variableName}}'}</code> {t('descriptionend')}
         </p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="mb-6 space-y-4">
           <div className="flex gap-2 items-end mb-5">
             <div className="grid gap-2">
-              <Label htmlFor="variable">Variable Name</Label>
+              <Label htmlFor="variable">{t('name')}</Label>
               <Input
                 id="variable"
                 type="text"
-                placeholder="Enter variable name"
+                placeholder={t('val1')}
                 value={variable}
                 onChange={(e) => setVariable(e.target.value.trim())}
                 required
@@ -93,17 +95,17 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="value">Value</Label>
+              <Label htmlFor="value">{t('value')}</Label>
               <Input
                 type="text"
-                placeholder="Enter value"
+                placeholder={t('val2')}
                 value={value}
                 onChange={(e) => setValue(e.target.value.trim())}
                 required
                 className="flex-1"
               />
             </div>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{t('save')}</Button>
           </div>
         </form>
 
@@ -111,8 +113,8 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
           <table className="min-w-full border border-border text-sm">
             <thead className="bg-muted/50">
               <tr>
-                <th className="px-4 py-2 text-left font-medium">Variable</th>
-                <th className="px-4 py-2 text-left font-medium">Value</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col1')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col2')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -127,7 +129,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
                     </td>
                     <td className="text-right">
                       <Button size="sm" onClick={() => handleDelete(item.varName)}>
-                        Delete
+                        {t('delete')}
                       </Button>
                     </td>
                   </tr>
@@ -135,7 +137,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
               ) : (
                 <tr>
                   <td colSpan={3} className="h-24 text-center">
-                    No variables found. Add one above!
+                    {t('notfound')}
                   </td>
                 </tr>
               )}

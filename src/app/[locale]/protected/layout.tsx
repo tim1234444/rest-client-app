@@ -20,7 +20,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
               <Link href={`/`}>{tn('home')}</Link>
               <Link href={`/protected/client`}>{tn('client')}</Link>
               <Link href={`/protected/history`}>{tn('history')}</Link>
-              <Link href={'/protected/variables'}>Variables</Link>
+              <Link href={'/protected/variables'}>{tn('var')}</Link>
             </div>
             <LangSwitcher />
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
