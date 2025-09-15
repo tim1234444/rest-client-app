@@ -36,16 +36,16 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           <div className="flex items-center gap-20">
             <p className="text-sm">2025</p>
             <p>
-            {t('co')}{' '}
-            <a
-              href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-              target="_blank"
-              className="font-bold hover:underline"
-              rel="noreferrer"
-            >
-              {t('supabase')}
-            </a>
-          </p>
+              {t('co')}{' '}
+              <a
+                href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+                target="_blank"
+                className="font-bold hover:underline"
+                rel="noreferrer"
+              >
+                {t('supabase')}
+              </a>
+            </p>
             <ThemeSwitcher />
           </div>
         </footer>
