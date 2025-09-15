@@ -7,6 +7,7 @@ import Error from './error';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { getTranslations } from 'next-intl/server';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
+import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('footer');
@@ -30,8 +31,11 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           <ErrorBoundary fallback={<Error />}>{children}</ErrorBoundary>
         </div>
 
-        <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-          <p>
+        <footer className="w-full flex flex-col  items-center justify-center border-t mx-auto text-center text-xs gap-5 py-16">
+          <FooterInfo />
+          <div className="flex items-center gap-20">
+            <p className="text-sm">2025</p>
+            <p>
             {t('co')}{' '}
             <a
               href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
@@ -42,7 +46,8 @@ export default async function ProtectedLayout({ children }: { children: React.Re
               {t('supabase')}
             </a>
           </p>
-          <ThemeSwitcher />
+            <ThemeSwitcher />
+          </div>
         </footer>
       </div>
     </main>
