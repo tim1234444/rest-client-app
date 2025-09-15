@@ -21,7 +21,7 @@ export default function FooterInfo() {
 
       <a href="https://rs.school/courses/reactjs" target="_blank" rel="noopener noreferrer">
         <Image
-          className="transition-transform duration-300 ease-in-out hover:scale-110 w-auto h-8 min-w-[32px] object-contain"
+          className="transition-transform duration-300 ease-in-out hover:scale-110 w-auto h-8 min-w-[32px] object-contain border border-white rounded-full"
           src="/rss-logo.svg"
           alt={t('rsSchoolLogo')}
           width="32"
