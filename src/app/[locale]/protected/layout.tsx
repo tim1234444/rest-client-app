@@ -31,7 +31,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
           <ErrorBoundary fallback={<Error />}>{children}</ErrorBoundary>
         </div>
 
-        <footer className="w-full flex flex-col  items-center justify-center border-t mx-auto text-center text-xs gap-5 py-16">
+        <footer className="w-full flex flex-col  items-center justify-center border-t mx-auto text-center text-xs gap-5 py-5">
           <FooterInfo />
           <div className="flex items-center gap-20">
             <p className="text-sm">2025</p>

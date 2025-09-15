@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 export default function FooterInfo() {
   const t = useTranslations('footer');
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-8">
       {teamData.map((person) => (
         <a
           className="transition-transform duration-300 ease-in-out hover:scale-105 text-sm"
