@@ -16,7 +16,7 @@ type Props = {
 export function useRestClientForm({ url, method, body, headersList, variables }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [res, setRes] = useState('');
-  const [status, setStatus] = useState<number>();
+  const [status, setStatus] = useState<number>(0);
   const [fetchError, setFetchError] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 

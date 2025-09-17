@@ -52,7 +52,7 @@ export default function RestClient({ id = '' }: Props) {
     headersList,
     variables,
   });
-  
+
   return (
     <>
       <Card className="max-w-3xl mx-auto p-4">
@@ -219,26 +219,24 @@ export default function RestClient({ id = '' }: Props) {
         </CardContent>
       </Card>
       <div className="flex-1">
-        {res && (
-          <>
-            {status && !fetchError && (
-              <>
-                <h2 className="mb-2">
-                  {t('status')}: {status}
-                </h2>
-                <Editor
-                  height="200px"
-                  defaultLanguage="json"
-                  value={typeof res === 'string' ? res : JSON.stringify(res, null, 2)}
-                  options={{ readOnly: true, minimap: { enabled: false } }}
-                />
-              </>
-            )}
-          </>
-        )}
+        <>
+          {Boolean(status) && !fetchError && (
+            <>
+              <h2 className="mb-2">
+                {t('status')}: {status}
+              </h2>
+              <Editor
+                height="200px"
+                defaultLanguage="json"
+                value={typeof res === 'string' ? res : JSON.stringify(res, null, 2)}
+                options={{ readOnly: true, minimap: { enabled: false } }}
+              />
+            </>
+          )}
+        </>
 
         {fetchError && <div className="text-sm text-red-500">{fetchError}</div>}
-        {!fetchError && !res && (
+        {!fetchError && !Boolean(status) && !res && (
           <div className="border rounded p-4 text-gray-400 h-full flex items-center justify-center">
             {t('response')}
           </div>
