@@ -14,7 +14,6 @@ export default async function TableHistory({
   const t = await getTranslations('history');
 
   if (error) {
-    console.error('Supabase error:', error);
     return (
       <Card>
         <CardHeader>
@@ -61,6 +60,7 @@ export default async function TableHistory({
                 <th className="px-4 py-2 text-left font-medium">{t('col6')}</th>
                 <th className="px-4 py-2 text-left font-medium">{t('col7')}</th>
                 <th className="px-4 py-2 text-left font-medium">{t('col8')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col9')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
