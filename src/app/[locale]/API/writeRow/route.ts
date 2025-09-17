@@ -31,11 +31,10 @@ export async function POST(request: Request) {
       throw new Error('Invalid URL format');
     }
 
-    // Отправка запроса
     const userFetch = await fetch(res.url, {
-      method: res.method,
-      headers,
-      body: ['POST', 'PUT', 'PATCH'].includes(res.method) ? res.body : undefined,
+          method: res.method,
+          headers,
+          body: ['POST', 'PUT', 'PATCH'].includes(res.method) ? res.body : undefined,
     });
 
     // Конец отсчета времени совершения запроса
@@ -83,7 +82,6 @@ export async function POST(request: Request) {
     });
   } catch (err) {
     // Отправка данных в бд в случае ошибки
-    console.error(err);
     const params = new URLSearchParams(headers).toString();
     await supabase
       .from('history_and_analytics')

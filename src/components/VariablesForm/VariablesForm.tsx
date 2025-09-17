@@ -123,6 +123,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
               <tr>
                 <th className="px-4 py-2 text-left font-medium">{t('col1')}</th>
                 <th className="px-4 py-2 text-left font-medium">{t('col2')}</th>
+                <th className="px-4 py-2 text-left font-medium">{t('col3')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -130,14 +131,14 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
                 variablesList.map((item) => {
                   const uuid = self.crypto.randomUUID();
                   return (
-                    <tr key={uuid}>
-                      <td className="font-medium p-2">
+                    <tr key={uuid} className='p-2'>
+                      <td className="font-medium p-4">
                         <span>{item.varName}</span>
                       </td>
-                      <td className="text-sm p-2">
+                      <td className="text-sm p-4">
                         <span className="truncate block max-w-xs md:max-w-md">{item.varValue}</span>
                       </td>
-                      <td className="text-right">
+                      <td className="text-right p-4">
                         <Button size="sm" onClick={() => handleDelete(item.varName)}>
                           {t('delete')}
                         </Button>

@@ -90,7 +90,6 @@ export default function RestClient({ id = '' }: Props) {
       options,
       (error: Error | null, snippet: string) => {
         if (error) {
-          console.error(error);
         } else {
           setSnippet(substitute(snippet, variables));
         }
@@ -172,7 +171,7 @@ export default function RestClient({ id = '' }: Props) {
     // Сбрасывание ошибок валидации, результата запроса, статуса ответа, ошибки запроса
     setErrors({});
     serRes('');
-    setStatus(0);
+    setStatus();
     setFetchError('');
 
     // Замена переменных на значения в header
@@ -216,7 +215,6 @@ export default function RestClient({ id = '' }: Props) {
         serRes(res.data);
         setStatus(res.status);
       } else if (data.status === 500) {
-        console.log(data.status);
         setFetchError(res.error);
       }
     }
@@ -397,7 +395,7 @@ export default function RestClient({ id = '' }: Props) {
         </CardContent>
       </Card>
       <div className="flex-1">
-        {res && (
+
           <>
             {status && !fetchError && (
               <>
@@ -413,7 +411,6 @@ export default function RestClient({ id = '' }: Props) {
               </>
             )}
           </>
-        )}
 
         {fetchError && <div className="text-sm text-red-500">{fetchError}</div>}
         {!fetchError && !res && (
