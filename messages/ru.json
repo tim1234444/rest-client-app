@@ -50,7 +50,11 @@
 
   "footer": {
     "co": "При поддержки",
-    "supabase": "Супербаза"
+    "supabase": "Супербаза",
+    "developer1": "Александр Куралиненко",
+    "developer2": "Марат Мавлекиев",
+    "developer3": "Тимофей Петрухин",
+    "rsSchoolLogo": "Логотип RS School"
   },
 
   "variables": {

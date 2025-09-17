@@ -50,7 +50,11 @@
 
   "footer": {
     "co": "Powered by",
-    "supabase": "Supabase"
+    "supabase": "Supabase",
+    "developer1": "Alexander Kuralenko",
+    "developer2": "Marat Mavlekiev",
+    "developer3": "Timofey Petrukhin",
+    "rsSchoolLogo": "RS School Logo"
   },
 
   "variables": {
