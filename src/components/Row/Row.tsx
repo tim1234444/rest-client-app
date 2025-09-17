@@ -1,5 +1,6 @@
 import RowButton from '../RowButton/RowButton';
 import { randomUUID } from 'crypto';
+import React from 'react';
 export interface ITableProps {
   request_duration: number;
   response_status_code: number;
