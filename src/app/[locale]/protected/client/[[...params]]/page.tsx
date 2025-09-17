@@ -1,15 +1,13 @@
+import RestClientContainer from '@/src/components/containers/RestClientContainer';
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import dynamic from 'next/dynamic';
-export default async function Client() {
+
+export default async function ClientPage() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   const id = data.user?.id;
-  if (error || !data?.user) {
-    redirect('/auth/login');
-  }
-  const LazyRestClient = dynamic(() => import('@/src/components/RestForm/RestForm'), {
-    loading: () => <p>Loading...</p>,
-  });
-  return <LazyRestClient id={id} />;
+
+  if (!id || error) redirect('/auth/login');
+
+  return <RestClientContainer id={id} />;
 }

@@ -48,7 +48,7 @@ export default async function TableHistory({
         <CardDescription>{t('description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="overflow-x-auto">
+        <div className="max-h-[600px] overflow-y-auto">
           <table className="min-w-full border border-border text-sm">
             <thead className="bg-muted/50">
               <tr>
