@@ -1,236 +1,57 @@
 'use client';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Request } = require('postman-collection');
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const Codegen = require('postman-code-generators');
 import { Editor } from '@monaco-editor/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
-import { schema } from '@/src/schemas';
-import { ValidationError } from 'yup';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-type ReplaceURLParams = {
-  method?: string;
-  url?: string;
-  headers?: string;
-  body?: string;
-};
-type headersList = {
-  key: string;
-  value: string;
-}[];
-type DataType = {
-  url: string;
-  method: string;
-};
+import { parseUrlParams } from '@/src/utils/parseUrlParams';
+import { useSnippetGenerator } from '@/src/hooks/useSnippetGenerator';
+import { getVariable } from '@/src/utils/getVariable';
+import { headersList, VariableItem } from '@/src/type/type';
+import { useRestClientForm } from '@/src/hooks/useRestClientForm';
 type Props = {
   id: string | undefined;
 };
-interface VariableItem {
-  varName: string;
-  varValue: string;
-}
+
 export default function RestClient({ id = '' }: Props) {
   // Получение параметров для востановления полей из URL
+  const t = useTranslations('client');
   const params: { params: string[] } = useParams();
   const searchParams = useSearchParams();
-  const t = useTranslations('client');
 
   // Получение значений из параметров и привязка их к переменным
-  const [parseMethod, parseUrl, parseBody, parseHeaders] = useMemo(() => {
-    const arr = params?.params ?? [];
-
-    const method = arr[0] ?? 'GET';
-    const url = arr[1] ? atob(decodeURIComponent(arr[1])) : '';
-    const body = arr[2] ? atob(decodeURIComponent(arr[2])) : '';
-    const headers = Array.from(searchParams.entries()).map(([headerName, headerValue]) => ({
-      key: headerName,
-      value: headerValue,
-    }));
-    return [method, url, body, headers];
-  }, [params.params, searchParams]);
+  const [parseMethod, parseUrl, parseBody, parseHeaders] = parseUrlParams(
+    params?.params,
+    searchParams,
+  );
 
   // Объяление состояний для отслеживания значений input
   const [method, setMethod] = useState(parseMethod);
   const [url, setUrl] = useState(parseUrl);
   const [body, setBody] = useState(parseBody);
   const [headersList, setHeadersList] = useState<headersList>(parseHeaders);
-
-  const [snippet, setSnippet] = useState('');
+  // Тип данных в текстовом редакторе
+  const [typeBody, setTypeBody] = useState('JSON');
   const [lang, setLang] = useState({
     language: 'curl',
     variant: 'curl',
   });
-
-  useEffect(() => {
-    const request = new Request({
-      url: url,
-      method: method,
-      header: headersList,
-      body: {
-        mode: 'raw',
-        raw: body,
-      },
-    });
-
-    const options = {
-      indentCount: 2,
-      indentType: 'Space',
-      trimRequestBody: true,
-    };
-
-    Codegen.convert(
-      lang.language,
-      lang.variant,
-      request,
-      options,
-      (error: Error | null, snippet: string) => {
-        if (error) {
-          console.error(error);
-        } else {
-          setSnippet(substitute(snippet, variables));
-        }
-      },
-    );
-  }, [method, url, body, headersList, lang]);
-  // Тип данных в текстовом редакторе
-  const [typeBody, setTypeBody] = useState('JSON');
-
   // Создание Header
   const [headerName, setHeaderName] = useState('');
   const [headerValue, setHeaderValue] = useState('');
 
-  // Ошибки валидации
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  // Состояние для отслеживание фазы ожидания ответа запроса
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Отслеживание состояние запроса, ошибок и результат запроса
-  const [res, serRes] = useState('');
-  const [status, setStatus] = useState<number>();
-  const [fetchError, setFetchError] = useState('');
-
-  const [variables, setVariables] = useState<VariableItem[]>([]);
-
-  // Функция валидации
-  async function Validate(formData: DataType) {
-    try {
-      await schema.validate(formData, { abortEarly: false });
-      return true;
-    } catch (err) {
-      if (err instanceof ValidationError) {
-        const errors = err.inner.reduce(
-          (acc, curr) => {
-            if (curr.path) {
-              acc[curr.path] = curr.message;
-            }
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
-        setErrors(errors);
-      }
-      return false;
-    }
-  }
-
-  // Получение перменных из хранилища
-  useEffect(() => {
-    if (id) {
-      const stored = localStorage.getItem(id);
-      if (stored !== null) {
-        setVariables(JSON.parse(stored) as VariableItem[]);
-      }
-    }
-  }, [id]);
-
-  function substitute(template: string, variables: VariableItem[]): string {
-    return template.replace(/{{(.*?)}}/g, (fullValue, key) => {
-      const found = variables.find((v) => v.varName === key.trim());
-      return found ? found.varValue : fullValue;
-    });
-  }
-  function substituteHeaders(headers: headersList, variables: VariableItem[]): headersList {
-    return headers.map((header) => ({
-      key: substitute(header.key, variables),
-      value: substitute(header.value, variables),
-    }));
-  }
-
-  // Отправка запроса
-  const fetchFrom = async function (
-    e: React.FormEvent<HTMLFormElement>,
-    headers: headersList,
-    body: string,
-  ) {
-    e.preventDefault();
-    // Сбрасывание ошибок валидации, результата запроса, статуса ответа, ошибки запроса
-    setErrors({});
-    serRes('');
-    setStatus(0);
-    setFetchError('');
-
-    // Замена переменных на значения в header
-    const substituteHeader = substituteHeaders(headers, variables);
-    const headersObj = Object.fromEntries(substituteHeader.map((h) => [h.key, h.value]));
-    const params = new URLSearchParams(headersObj).toString();
-    // Замена переменных на значения в URL, body и
-    const requestUrl = substitute(url, variables);
-    const requestBody = substitute(body, variables);
-    const requestMethod = method;
-    // Замена URL
-    replaseURL({
-      method: requestMethod,
-      url: '/' + window.btoa(requestUrl),
-      headers: '?' + params,
-      body: '/' + window.btoa(requestBody),
-    });
-
-    const formData = new FormData(e.currentTarget);
-    const values = Object.fromEntries(formData.entries()) as unknown as DataType;
-    // Вызов функции Валидации
-    const isValidate = await Validate(values);
-    if (isValidate) {
-      setIsLoading(true);
-      const data = await fetch('/API/writeRow', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          method: requestMethod,
-          url: requestUrl,
-          headers: headersObj,
-          body: requestBody,
-        }),
-      });
-
-      const res = await data.json();
-      setIsLoading(false);
-      if (data.status === 200) {
-        serRes(res.data);
-        setStatus(res.status);
-      } else if (data.status === 500) {
-        console.log(data.status);
-        setFetchError(res.error);
-      }
-    }
-  };
-
-  // Функция замены URL
-  const replaseURL = function ({
-    method = '',
-    url = '',
-    headers = '',
-    body = '',
-  }: ReplaceURLParams) {
-    window.history.replaceState(null, '', `/protected/client/${method}` + url + body + headers);
-  };
+  const variables: VariableItem[] = getVariable(id);
+  const snippet = useSnippetGenerator({ method, url, headersList, body, lang, variables });
+  const { handleSubmit, isLoading, res, status, fetchError, errors } = useRestClientForm({
+    url,
+    method,
+    body,
+    headersList,
+    variables,
+  });
   return (
     <>
       <Card className="max-w-3xl mx-auto p-4">
@@ -238,7 +59,7 @@ export default function RestClient({ id = '' }: Props) {
           <CardTitle className="text-2xl">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={(e) => fetchFrom(e, headersList, body)} className="flex flex-col gap-4">
+          <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-4">
             <div className="grid gap-2">
               <Label htmlFor="method">{t('method')}</Label>
               <select
