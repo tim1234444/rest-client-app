@@ -1,17 +1,15 @@
 import { createClient } from '@/src/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import VariablesContainer from '@/src/components/containers/VariablesContainer';
 
 export default async function Variables() {
   const supabase = await createClient();
 
   const { data, error: err } = await supabase.auth.getUser();
   const id = data.user?.id;
-  if (err || !data?.user) {
+  if (err || !id) {
     redirect('/auth/login');
   }
-  const LazyVariablesForm = dynamic(() => import('@/src/components/VariablesForm/VariablesForm'), {
-    loading: () => <p>Loading...</p>,
-  });
-  return <LazyVariablesForm id={id} />;
+
+  return <VariablesContainer id={id} />;
 }

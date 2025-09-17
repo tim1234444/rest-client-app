@@ -52,6 +52,7 @@ export default function RestClient({ id = '' }: Props) {
     headersList,
     variables,
   });
+  
   return (
     <>
       <Card className="max-w-3xl mx-auto p-4">

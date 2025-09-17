@@ -4,6 +4,7 @@ export async function sendRequest(data: { method: string; url: string; headers: 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    return res.json().then(info => ({ status: res.status, data: info.data }));
+    
+    return res.json().then(info => ({ status: res.status, data: info }));
   }
   

@@ -59,6 +59,7 @@ export function useRestClientForm({ url, method, body, headersList, variables }:
         body: requestBody,
       });
       setIsLoading(false);
+
       if (responseStatus === 200) {
         setRes(responseData.data);
         setStatus(responseData.status);
