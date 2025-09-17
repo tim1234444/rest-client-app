@@ -67,6 +67,7 @@
     "notfound": "No variables found. Add one above!",
     "col1": "Variable",
     "col2": "Value",
+    "col3": "Evalible action",
     "val1": "Enter variable name",
     "val2": "Enter variable value",
     "delete": "Delete"
@@ -102,6 +103,7 @@
     "col6": "Response Size",
     "col7": "Error Details",
     "col8": "Endpoint / URL",
+    "col9": "Evalible action",
     "restore": "Restore request",
     "error": "Error",
     "errordescription": "Something went wrong fetching history"
