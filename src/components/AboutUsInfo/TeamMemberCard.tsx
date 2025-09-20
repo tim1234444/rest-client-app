@@ -13,8 +13,13 @@ export const TeamMemberCard: React.FC<Props> = ({ member }) => {
   const t = useTranslations('about');
   return (
     <div className={styles.card}>
-      <Image src={member.photoUrl} alt={t(member.name)} className={styles.photo} width="128"
-          height="128"/>
+      <Image
+        src={member.photoUrl}
+        alt={t(member.name)}
+        className={styles.photo}
+        width="128"
+        height="128"
+      />
       <h2 className={styles.name}>{t(member.name)}</h2>
       <p className={styles.role}>{t(member.role)}</p>
       <p className={styles.bio}>{t(`bio ${member.name}`)}</p>

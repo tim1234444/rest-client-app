@@ -11,7 +11,12 @@ export default function StickyNavWrapper({ children }: StickyNavWrapperProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      const scroll = window.scrollY;
+      setIsScrolled((prev) => {
+        if (!prev && scroll > 35) return true;
+        if (prev && scroll < 1) return false;
+        return prev;
+      });
     };
 
     window.addEventListener('scroll', handleScroll);
