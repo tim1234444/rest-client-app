@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { teamData } from './teamData';
+import { teamData } from '../AboutUsInfo/teamData';
 import { useTranslations } from 'next-intl';
 
 export default function FooterInfo() {

@@ -1,0 +1,48 @@
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  background-color: white;
+  max-width: 20rem;
+  text-align: center;
+}
+
+.photo {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 9999px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.role {
+  color: #4b5563;
+}
+
+.bio {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.contributions {
+  font-size: 0.875rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.githubLink {
+  color: #2563eb;
+  text-decoration: none;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.githubLink:hover {
+  text-decoration: underline;
+}

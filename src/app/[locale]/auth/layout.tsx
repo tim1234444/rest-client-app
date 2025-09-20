@@ -5,7 +5,7 @@ import { hasEnvVars } from '@/src/lib/utils';
 import { Link } from '@/src/i18n/navigation';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 import { getTranslations } from 'next-intl/server';
-import StickyNavWrapper from '@/src/components/Header/StickyNavWrapper';
+import StickyNavWrapper from '@/src/components/StickyNavWrapper/StickyNavWrapper';
 import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {

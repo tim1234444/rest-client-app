@@ -8,7 +8,7 @@ import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { getTranslations } from 'next-intl/server';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
-import StickyNavWrapper from '@/src/components/Header/StickyNavWrapper';
+import StickyNavWrapper from '@/src/components/StickyNavWrapper/StickyNavWrapper';
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('footer');

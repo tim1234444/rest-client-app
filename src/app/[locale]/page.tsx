@@ -7,8 +7,9 @@ import { redirect } from 'next/navigation';
 import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/src/i18n/navigation';
-import StickyNavWrapper from '@/src/components/Header/StickyNavWrapper';
+import StickyNavWrapper from '@/src/components/StickyNavWrapper/StickyNavWrapper';
 import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
+import AboutUsInfo from '@/src/components/AboutUsInfo/AboutUsInfo';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -33,10 +34,11 @@ export default async function Home() {
           </nav>
         </StickyNavWrapper>
         <div className="flex-1 flex flex-col gap-20 max-w-5xl p-5">
-          <main className="flex-1 flex flex-col gap-6 px-4">
+          <main className="flex-1 flex items-center flex-col gap-6 px-4">
             <h1 className="text-center"> {t('hello')}! </h1>
 
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
+            <AboutUsInfo />
           </main>
         </div>
 
