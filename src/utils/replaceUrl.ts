@@ -1,4 +1,4 @@
-import { ReplaceURLParams } from "../type/type";
+import { ReplaceURLParams } from '../type/type';
 
 export const replaseURL = function ({
   method = '',

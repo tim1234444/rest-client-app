@@ -131,7 +131,7 @@ export default function VariablesForm({ id = '' }: VariablesFormProps) {
                 variablesList.map((item) => {
                   const uuid = self.crypto.randomUUID();
                   return (
-                    <tr key={uuid} className='p-2'>
+                    <tr key={uuid} className="p-2">
                       <td className="font-medium p-4">
                         <span>{item.varName}</span>
                       </td>
