@@ -17,6 +17,10 @@ export default defineConfig({
         'src/pages/**/*.{js,ts,tsx}',
         'src/setupTests.{js,ts}',
         'src/**/*.d.ts',
+        'src/app/**',
+        'src/lib/supabase/**',
+        'src/i18n/**',
+        'src/middleware.ts',
       ],
       reporter: ['text', 'html', 'lcov'],
       thresholds: {
