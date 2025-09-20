@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Team } from '@/src/type/type';
 import { useTranslations } from 'next-intl';
