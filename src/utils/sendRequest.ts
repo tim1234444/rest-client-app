@@ -9,6 +9,5 @@ export async function sendRequest(data: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  const json = await res.json();
-  return { status: res.status, data: json };
+  return res.json().then((info) => ({ status: res.status, data: info }));
 }
