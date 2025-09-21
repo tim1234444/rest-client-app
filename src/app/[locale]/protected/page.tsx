@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/src/lib/supabase/server';
 import { getTranslations } from 'next-intl/server';
+import AboutUsContainer from '@/src/components/containers/AboutUsContainer';
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
@@ -11,10 +12,11 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <>
+    <div className="flex items-center flex-col">
       <div>
         {t('helloback')}, {data.user?.email}
       </div>
-    </>
+      <AboutUsContainer />
+    </div>
   );
 }

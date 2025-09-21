@@ -1,8 +1,8 @@
-import { headersList } from "../type/type";
+import { headersList } from '../type/type';
 
 export function parseUrlParams(
   paramsArray: string[] | undefined,
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams,
 ): [string, string, string, headersList] {
   const arr = paramsArray ?? [];
 

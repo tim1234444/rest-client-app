@@ -32,9 +32,9 @@ export async function POST(request: Request) {
     }
 
     const userFetch = await fetch(res.url, {
-          method: res.method,
-          headers,
-          body: ['POST', 'PUT', 'PATCH'].includes(res.method) ? res.body : undefined,
+      method: res.method,
+      headers,
+      body: ['POST', 'PUT', 'PATCH'].includes(res.method) ? res.body : undefined,
     });
 
     // Конец отсчета времени совершения запроса
