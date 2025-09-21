@@ -8,7 +8,7 @@ export default async function Variables() {
   const { data, error: err } = await supabase.auth.getUser();
   const id = data.user?.id;
   if (err || !id) {
-    redirect('/auth/login');
+    redirect('/');
   }
 
   return <VariablesContainer id={id} />;

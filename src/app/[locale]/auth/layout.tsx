@@ -7,6 +7,8 @@ import LangSwitcher from '@/src/components/LangSwitcher/LangSwitcher';
 import { getTranslations } from 'next-intl/server';
 import StickyNavWrapper from '@/src/components/StickyNavWrapper/StickyNavWrapper';
 import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from '../../error';
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations('root');
@@ -25,9 +27,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
             </div>
           </nav>
         </StickyNavWrapper>
-
-        {children}
-
+        <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
         <footer className="w-full flex flex-col  items-center justify-center border-t mx-auto text-center text-xs gap-5 py-5">
           <FooterInfo />
           <div className="flex items-center gap-20">

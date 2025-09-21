@@ -8,9 +8,8 @@ export default async function ProtectedPage() {
   const t = await getTranslations('root');
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    redirect('/auth/login');
+    redirect('/');
   }
-
   return (
     <div className="flex items-center flex-col">
       <div>

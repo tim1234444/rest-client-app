@@ -7,7 +7,7 @@ export default async function ClientPage() {
   const { data, error } = await supabase.auth.getUser();
   const id = data.user?.id;
 
-  if (!id || error) redirect('/auth/login');
+  if (!id || error) redirect('/');
 
   return <RestClientContainer id={id} />;
 }

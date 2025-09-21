@@ -5,6 +5,7 @@ import TeamMemberCard from './TeamMemberCard';
 import { useTranslations } from 'next-intl';
 
 const AboutUsInfo = memo(function About() {
+  
   const t = useTranslations('about');
 
   return (

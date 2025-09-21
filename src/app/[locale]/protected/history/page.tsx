@@ -5,7 +5,7 @@ export default async function History() {
   const supabase = await createClient();
   const { data, error: err } = await supabase.auth.getUser();
   if (err || !data?.user) {
-    redirect('/auth/login');
+    redirect('/');
   }
   const userInfo = data.user;
 
