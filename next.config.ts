@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     reactCompiler: true,
+    globalNotFound: true,
   },
 };
 const withNextIntl = createNextIntlPlugin();

@@ -41,7 +41,6 @@ export function useSnippetGenerator({
       options,
       (error: Error | null, snippet: string) => {
         if (error) {
-          console.error(error);
         } else {
           setSnippet(substitute(snippet, variables));
         }

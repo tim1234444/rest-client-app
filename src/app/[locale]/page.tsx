@@ -9,7 +9,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/src/i18n/navigation';
 import StickyNavWrapper from '@/src/components/StickyNavWrapper/StickyNavWrapper';
 import FooterInfo from '@/src/components/FooterInfo/FooterInfo';
-import AboutUsInfo from '@/src/components/AboutUsInfo/AboutUsInfo';
+import AboutUsContainer from '@/src/components/containers/AboutUsContainer';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -38,7 +38,7 @@ export default async function Home() {
             <h1 className="text-center"> {t('hello')}! </h1>
 
             {!hasEnvVars ? <EnvVarWarning /> : <AuthButton />}
-            <AboutUsInfo />
+            <AboutUsContainer />
           </main>
         </div>
 
