@@ -9,8 +9,6 @@ export async function sendRequest(data: {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  console.log('CONSOLE',res);
   const json = await res.json();
-  console.log('CONSOLE2', { status: res.status, data: json });
   return { status: res.status, data: json };
 }
