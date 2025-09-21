@@ -51,9 +51,9 @@
   "footer": {
     "co": "Powered by",
     "supabase": "Supabase",
-    "developer1": "Alexander Kuralenko",
-    "developer2": "Marat Mavlekiev",
-    "developer3": "Timofey Petrukhin",
+    "Alexander Kuralenko": "Alexander Kuralenko",
+    "Marat Mavlekiev": "Marat Mavlekiev",
+    "Timofey Petrukhin": "Timofey Petrukhin",
     "rsSchoolLogo": "RS School Logo"
   },
 
@@ -107,5 +107,22 @@
     "restore": "Restore request",
     "error": "Error",
     "errordescription": "Something went wrong fetching history"
+  },
+
+  "about": {
+    "About our team, project and course": "About our team, project and course",
+    "description": "Our team is a close-knit group of professionals who came together to create REST Client. This REST client was developed as part of the REACT course at RS School. Our REST client supports method selection, URLs, and headers. Additional components of our application include: Authorization and authentication capabilities, ensuring that access to the tool is limited to authorized users. A history section that redirects the user to a specific section for previously executed requests. We used agile methodologies, collaborative planning, and effective communication to achieve success. Below are the project participants, their roles, and contributions:",
+    "Alexander Kuralenko": "Alexander Kuralenko",
+    "Marat Mavlekiev": "Marat Mavlekiev",
+    "Timofey Petrukhin": "Timofey Petrukhin",
+    "Frontend Developer": "Frontend Developer",
+    "bio Alexander Kuralenko": "Front-end developer with 2 years of hands-on development experience. Passionate about creating clean, efficient, and user-friendly interfaces. Constantly learning and exploring new technologies to stay ahead in the ever-evolving world of web development. Beyond coding, I lead an active lifestyle and believe in maintaining a healthy work-life balance. Quick learner, problem solver, and always eager to take on new challenges.",
+    "Contributions Alexander Kuralenko": "Contributions: History and analytics Page Implementation, Internationalization, Setting up the integration of tables from Supabase into the project, Project optimization",
+    "bio Marat Mavlekiev": "Previously, I worked for 14 years at a large industrial enterprise in Ulyanovsk, the last 10 years in management positions. Now I am a beginner Frontend-developer. I'm constantly learning and exploring new technologies. Besides studying, I lead an active lifestyle, travel a lot and have already visited 29 countries. I love running and do it 4-5 times a week. I'm a quick learner and eager to absorb new information.",
+    "Contributions Marat Mavlekiev": "Contributions: Variables Page Implementation, Main Page Implementation, Header and Footer Implementation",
+    "Team leader, Frontend Developer": "Team leader, Frontend Developer",
+    "bio Timofey Petrukhin": "Timofey is the team leader of Virtual DOMinators. He first got into programming at the age of 14 after joining a course by chance — an experience that sparked a lasting passion. Over time, he has grown into a confident developer and grateful learner, now leading his team with enthusiasm and dedication.",
+    "Contributions Timofey Petrukhin": "Contributions: Connection and setup Supabase and Next.js, Rest client Page Implementation, Registration Page Implementation, Project Enhancements",
+    "GitHub profile": "GitHub profile"
   }
 }

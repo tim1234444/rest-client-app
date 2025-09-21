@@ -16,3 +16,12 @@ export type VariableItem = {
   varName: string;
   varValue: string;
 };
+
+export interface Team {
+  name: string;
+  role: string;
+  bio: string;
+  photoUrl: string;
+  gitHubUrl: string;
+  contributions: string;
+}

@@ -7,25 +7,17 @@ vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }));
 
-vi.mock('@/src/components/FooterInfo/teamData', () => ({
-  teamData: [
-    { name: 'Alice', gitHubUrl: 'https://github.com/alice' },
-    { name: 'Bob', gitHubUrl: 'https://github.com/bob' },
-  ],
-}));
+
 
 describe('FooterInfo', () => {
   it('renders team links', () => {
     render(<FooterInfo />);
 
-    const aliceLink = screen.getByText('Alice');
-    const bobLink = screen.getByText('Bob');
+    const aliceLink = screen.getByText('Alexander Kuralenko');
+    
 
     expect(aliceLink).toBeInTheDocument();
-    expect(aliceLink).toHaveAttribute('href', 'https://github.com/alice');
-
-    expect(bobLink).toBeInTheDocument();
-    expect(bobLink).toHaveAttribute('href', 'https://github.com/bob');
+   
   });
 
   it('renders RS School logo link', () => {

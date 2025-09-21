@@ -1,13 +1,15 @@
-import { ValidationError } from "yup";
-import { schema } from "../schemas";
-import { Dispatch, SetStateAction } from "react";
+import { ValidationError } from 'yup';
+import { schema } from '../schemas';
+import { Dispatch, SetStateAction } from 'react';
 
 type DataType = {
-    url: string;
-    method: string;
-  };
-export async function Validate(formData: DataType, setErrors: Dispatch<SetStateAction<Record<string, string>>>) {
-    
+  url: string;
+  method: string;
+};
+export async function Validate(
+  formData: DataType,
+  setErrors: Dispatch<SetStateAction<Record<string, string>>>,
+) {
   try {
     await schema.validate(formData, { abortEarly: false });
     return true;
