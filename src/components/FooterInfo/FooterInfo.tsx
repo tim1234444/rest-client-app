@@ -1,4 +1,3 @@
-'use client';
 import Image from 'next/image';
 import { teamData } from '../AboutUsInfo/teamData';
 import { useTranslations } from 'next-intl';
